@@ -1,0 +1,207 @@
+package pages
+
+// Shared CSS Classes
+const (
+
+	// Hero shared classes
+	heroBtnBase = "flex items-center justify-center rounded-full h-12 px-8 text-base font-bold transition-all"
+
+	// Blog Card shared classes
+	blogCardContainer    = "group flex flex-col gap-4 rounded-xl bg-white dark:bg-[#2d1b24] p-4 shadow-sm hover:shadow-xl transition-all duration-300 border border-[#f4f0f2] dark:border-[#3d2b34]"
+	blogCardImgContainer = "relative w-full aspect-[4/3] overflow-hidden rounded-lg bg-gray-100"
+	blogCardImg          = "w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+	blogCardBadge        = "absolute top-3 left-3 bg-white/90 dark:bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary uppercase tracking-wide"
+	blogCardDate         = "flex items-center gap-2 text-xs text-text-muted dark:text-gray-500 font-medium"
+	blogCardTitle        = "text-lg font-bold text-text-main dark:text-white leading-tight group-hover:text-primary transition-colors line-clamp-2"
+	blogCardExcerpt      = "text-text-muted dark:text-gray-400 text-sm line-clamp-3"
+	blogCardBtn          = "text-sm font-bold text-text-main dark:text-white flex items-center gap-1 hover:gap-2 transition-all group-hover:text-primary"
+
+	// Gallery shared classes
+	galleryItemBase    = "group relative overflow-hidden rounded-2xl cursor-pointer"
+	galleryItemImage   = "w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+	galleryItemOverlay = "absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+)
+
+templ Miseriae() {
+	@Base("Miseriae", nil, nil) {
+		<!-- Hero Section -->
+		<section class="@container">
+			<div class="flex flex-col-reverse gap-8 py-10 @[864px]:flex-row @[864px]:items-center">
+				<!-- Text Content -->
+				<div class="flex flex-1 flex-col gap-6 items-start text-left">
+					<div class="inline-flex items-center gap-2 rounded-full bg-white dark:bg-[#331825] border border-primary/20 px-4 py-1.5 shadow-sm">
+						<span class="text-xs font-bold uppercase tracking-wider text-primary">NEW VLOG ALERT</span>
+						<span class="h-1.5 w-1.5 rounded-full bg-primary"></span>
+						<span class="text-xs text-text-muted dark:text-gray-400">Just Published My Site</span>
+					</div>
+					<h1 class="text-text-main dark:text-white text-5xl font-black leading-[1.1] tracking-[-0.02em] @[480px]:text-6xl">
+						Bringing <span class="text-primary underline decoration-wavy decoration-2 underline-offset-4">Characters</span> to Life! ✨
+					</h1>
+					<p class="text-text-muted dark:text-gray-300 text-lg leading-relaxed max-w-md">
+						Hi, I'm Miseriae! Cosplayer, Crafter, & Blogger based in Philippines. Welcome to my kawaii world of costume creation! 🌸
+					</p>
+					<div class="flex gap-4 flex-wrap">
+						<button class={ heroBtnBase, "bg-primary text-white shadow-[4px_4px_0px_0px_#221019] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] border-2 border-transparent hover:brightness-110" }>
+							View Cosplays
+						</button>
+						<button class={ heroBtnBase, "bg-white dark:bg-[#2d1b24] dark:text-white text-text-main border-2 border-[#f0e6ea] dark:border-[#3d2b34] hover:border-primary/50" }>
+							Latest Blog
+						</button>
+					</div>
+				</div>
+				<!-- Hero Image -->
+				<div class="relative w-full @[864px]:w-1/2 flex justify-center @[864px]:justify-end">
+					<!-- Abstract decorative background blobs -->
+					<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-3xl -z-10"></div>
+					<div class="relative aspect-[4/5] w-full max-w-[400px] overflow-hidden rounded-2xl border-4 border-white dark:border-[#2d1b24] shadow-kawaii transform rotate-2 hover:rotate-0 transition-transform duration-500 bg-gray-200">
+						<div class="w-full h-full bg-cover bg-center" data-alt="Female cosplayer in a bright pink magical girl costume striking a cute pose" style="background-image: url(&#34;https://lh3.googleusercontent.com/aida-public/AB6AXuAsuKIgUJNOP20sI3jElxaE2t7Rv1pJVBxbQTmI545HIZVVX5j43KIRnVAV-U3ANNcqgkmUhMtJs9BRIUHeSPeAZRf2vUiFe9oU1iF3YifCqxbcqMXQIb0uLPPGbb24lKCTDPd04nFz-sG3bxBZSXXGVPMczVQGk_U_ZvhE6GRKY-_Fzcd2FrO_WYkGDffvzCtoog942lX82pp10rYT_qNz1fGonoBMaH6seorMYlHU6tkg-aCCat10nwdcwkEvsE48L0ia_gT5rifr&#34;);"></div>
+						<!-- Overlay gradient -->
+						<div class="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent pointer-events-none"></div>
+					</div>
+					<!-- Floating Sticker -->
+					<div class="absolute -bottom-6 -left-6 bg-white dark:bg-[#331825] p-3 rounded-2xl shadow-lg border border-primary/20 rotate-[-6deg] animate-bounce duration-[3000ms]">
+						<div class="flex items-center gap-2">
+							<span class="material-symbols-outlined text-primary">favorite</span>
+							<span class="font-bold text-sm dark:text-white">Cosplay <br/>Lover</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Latest Blogs Section -->
+		<section class="flex flex-col gap-8">
+			<div class="flex items-end justify-between px-2">
+				<div>
+					<h2 class="text-text-main dark:text-white text-3xl font-bold leading-tight tracking-tight flex items-center gap-3">
+						Latest Blogs <span class="text-2xl animate-pulse">🌸</span>
+					</h2>
+					<p class="text-text-muted dark:text-gray-400 mt-2">Updates, tutorials, and adventures.</p>
+				</div>
+				<a class="hidden sm:flex items-center gap-1 text-primary font-bold hover:gap-2 transition-all" href="#">
+					See all posts <span class="material-symbols-outlined text-sm">arrow_forward</span>
+				</a>
+			</div>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				<!-- Blog Card 1 -->
+				<div class={ blogCardContainer }>
+					<div class={ blogCardImgContainer }>
+						<div class={ blogCardImg } data-alt="Close up of foam armor crafting process with pink paint" style="background-image: url(&#34;https://lh3.googleusercontent.com/aida-public/AB6AXuDvywmR_3zZhP4gBG7jpO5eBqeV6zJ1O4Rh3mx4Xq7V22WtoZdSk6KnSc3lVT8WxxoGZ_cUp4IozPthxjUgBCz6CQ0Wq-n1picnbsGA0EriQQ-9GAK-L0u1uAY9N8Vu6aZuyIwynxtVzO2yscyqgvaYxLnrHQJ9nY03WHFl2__afELxk2_U_L3-J91VLhkUDVBBtEUK1wzSHuv15DSzl-FIHdaP4hWmxLawjl5XjBi9Pn0fQYQbo6GQR4ZtOXRMHHA2FwjZtP49vXeJ&#34;);"></div>
+						<div class={ blogCardBadge }>
+							Tutorial
+						</div>
+					</div>
+					<div class="flex flex-col gap-2 flex-1">
+						<div class={ blogCardDate }>
+							<span class="material-symbols-outlined text-[16px]">calendar_today</span> Oct 12, 2023
+						</div>
+						<h3 class={ blogCardTitle }>
+							Making my Genshin Impact Armor: A Step-by-Step Guide
+						</h3>
+						<p class={ blogCardExcerpt }>
+							Detailed walkthrough on how I crafted the shoulder pieces using EVA foam and acrylics.
+						</p>
+						<div class="mt-auto pt-4">
+							<button class={ blogCardBtn }>
+								Read Article <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- Blog Card 2 -->
+				<div class={ blogCardContainer }>
+					<div class={ blogCardImgContainer }>
+						<div class={ blogCardImg } data-alt="Crowd of people at a convention center with blurred cosplayers" style="background-image: url(&#34;https://lh3.googleusercontent.com/aida-public/AB6AXuDXAYvVlpSjBGC6auGI1NRBsps0SxdfTgmRK3kOV4tuzUS3lxoiC0HNejtiSDVrv3YOscN5QhuUfLGbP-NlO6tTwCH9pepe6yRSSLiG98N9iI8WPkcICkx5P4J40fiB4k2a7EDspWjQBVozAvDSC9WgW9QMaBEv0I0scAGfrW6HARRNIRD4n1_0QgySZGj-a2Cj2wqvE-Ty4EpA-jQsdJYKmmY2HzUEWncrbptN5WMl5V8F9Nt9T5oHE3YrDJK7JENQywHNtQwr_09v&#34;);"></div>
+						<div class={ blogCardBadge }>
+							Vlog
+						</div>
+					</div>
+					<div class="flex flex-col gap-2 flex-1">
+						<div class={ blogCardDate }>
+							<span class="material-symbols-outlined text-[16px]">calendar_today</span> Sep 28, 2023
+						</div>
+						<h3 class={ blogCardTitle }>
+							Tokyo Game Show Weekend Recap & Haul!
+						</h3>
+						<p class={ blogCardExcerpt }>
+							It was chaotic but amazing! Check out what I bought and the amazing cosplayers I met.
+						</p>
+						<div class="mt-auto pt-4">
+							<button class={ blogCardBtn }>
+								Watch Vlog <span class="material-symbols-outlined text-[18px]">play_circle</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- Blog Card 3 -->
+				<div class={ blogCardContainer }>
+					<div class={ blogCardImgContainer }>
+						<div class={ blogCardImg } data-alt="Flat lay of makeup products including wigs and colorful palettes" style="background-image: url(&#34;https://lh3.googleusercontent.com/aida-public/AB6AXuDCS2KkUZLVR-5lMQ93j13b6b9sIiBOU_4_ToUbn2hSH1Sc75pc6dy4uNyLuZnnrovuswQJtZcja9jglvdnPVrdpVR15yiCHX4w46L6cxIEBHBYOOGftaHEZs6ssW1qxQkCM3eMx-24z-sILtNeB94dx5sTmp0loexQV7uSQO8Ry9OXaPaBqh00Gf-YczkdZ7zGC2dcEFKNC8fXz5I7D-WmpxaXLj3uJ-ZLCmUXxdEivREuH21OPc-8g-oXMjKD3rU6I8v5pJxwC4hn&#34;);"></div>
+						<div class={ blogCardBadge }>
+							Review
+						</div>
+					</div>
+					<div class="flex flex-col gap-2 flex-1">
+						<div class={ blogCardDate }>
+							<span class="material-symbols-outlined text-[16px]">calendar_today</span> Sep 15, 2023
+						</div>
+						<h3 class={ blogCardTitle }>
+							Top 5 Makeup Essentials for Long Conventions
+						</h3>
+						<p class={ blogCardExcerpt }>
+							Sweat-proof, tear-proof, and photo-ready! These are my holy grail products.
+						</p>
+						<div class="mt-auto pt-4">
+							<button class={ blogCardBtn }>
+								Read Article <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="sm:hidden w-full flex justify-center items-center gap-2 h-10 rounded-full bg-white dark:bg-[#2d1b24] text-primary font-bold shadow-sm border border-primary/20" href="#">
+				See all posts <span class="material-symbols-outlined text-sm">arrow_forward</span>
+			</a>
+		</section>
+		<!-- Featured Cosplays Section -->
+		<section class="flex flex-col gap-8 py-8">
+			<div class="text-center max-w-2xl mx-auto">
+				<h2 class="text-text-main dark:text-white text-3xl font-bold leading-tight tracking-tight mb-2">
+					Featured Cosplays 🎀
+				</h2>
+				<p class="text-text-muted dark:text-gray-400">Hand-crafted costumes from my favorite series.</p>
+			</div>
+			<div class="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[250px]">
+				<!-- Item 1: Large -->
+				<div class={ galleryItemBase, "col-span-2 row-span-2" }>
+					<div class={ galleryItemImage } data-alt="Cosplayer as a fantasy elf warrior in a forest setting" style="background-image: url(&#34;https://lh3.googleusercontent.com/aida-public/AB6AXuBMGe5GnoBkOl1jZS11_OsYw4FKgSSwsRm8XpLpnTK6iFYGdKTclCfpNIOPzfrHmySyO5PQ_k3C-ObsnWqfGX1aTrwMnMaK0DvY3VzX63j0BCT0eSBayuInxqY811IE0zElz-cZnanTZa3r4I0Hq6BO6zPyrbztJwgO6mUjr9VTMCtevclj8O_JHBKbjFvGJl5NukAyzaoJdaWrbNSJitCD2gQjFqwEPgT9Orz99s0OerOqL5gx02sHNKKmIBi9OeX7AnEUwPt6Tmnd&#34;);"></div>
+					<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+						<h3 class="text-white font-bold text-xl translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Forest Elf</h3>
+						<p class="text-white/90 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Original Design • 2023</p>
+					</div>
+				</div>
+				<!-- Item 2 -->
+				<div class={ galleryItemBase, "bg-pink-100" }>
+					<div class={ galleryItemImage } data-alt="Cosplayer wearing a futuristic cyberpunk neon outfit" style="background-image: url(&#34;https://lh3.googleusercontent.com/aida-public/AB6AXuCk6EPcqVqolCBgu4m7-Hgv8HSHUqiagQOINlyvw_J2scHq_-ksSBRB-SHanXceAk1toHpVA-_c9Kfjwgg9F1otNPfJBvSu4dH97Q6uQzZJwdR8CeUXsWuUZnCQEzFTDviReW9g1Aw1eocDDY387_3m-ZtaBBfdsxR05azWeR38N8wsqiN8AJvLULP3R6_rlFKfitoQ32W2_-ryjwxcwXfb8QbuxJ8IfNXwn6diJb2G2D42UjVun1nUKUV77FmJpUcWnM0LNNs8vNdp&#34;);"></div>
+					<div class={ galleryItemOverlay }></div>
+				</div>
+				<!-- Item 3 -->
+				<div class={ galleryItemBase, "bg-purple-100" }>
+					<div class={ galleryItemImage } data-alt="Cosplayer in a traditional Japanese kimono with fox mask" style="background-image: url(&#34;https://lh3.googleusercontent.com/aida-public/AB6AXuDDrgM_miB5Tgqg6QoaPCwTkWxzlFwvRyz9KcXS519Ltn4Q3rIs1V3i7Fy5Y9eqW-y41TTiRn9RCS5Pnj79C39gQM158kY7y4UP5ZczEKwmZN6Urgq7MSp5SQ3M-5XeDcye90sZRGEfMGOF76tyst_9wCeupptRAP4aniiPr9iRd0LJSwaK5dKNdID10beidDcgQRAJH4alaqnK7ihMZXlFpvrHKIIKj7wz7f0rb4RSlQDH_I47e5WM3gr42QvpvQ4EKrB5s9UtDWIV&#34;);"></div>
+					<div class={ galleryItemOverlay }></div>
+				</div>
+				<!-- Item 4 -->
+				<div class={ galleryItemBase, "bg-blue-100" }>
+					<div class={ galleryItemImage } data-alt="Cosplayer dressed as a superhero with a cape" style="background-image: url(&#34;https://lh3.googleusercontent.com/aida-public/AB6AXuD61blUQnjwL3ONfrerE9VE_0E5or7lQU6mLaNbXoKSoVRWkJjY7g_a7T5Rt0JBB6akD-SzQZZnpoGmQVImVTWbC6e_Evtd78Hogl8jghCF93MdmQ_q7kggevfNwWYpctyvaNrZYs3BDdboIGRrFPJOXNFEG8MWH-kcFCqaWCzcFUd3x8U0OeCG1bjm3iymUAzDtVS9JHkFaqiFDxGeKMrdS2RiCwaVlr9RrKzU_QKt-7bk3jCFrVo2-HEZgchFbV_uU38ALEp9KUgn&#34;);"></div>
+					<div class={ galleryItemOverlay }></div>
+				</div>
+				<!-- Item 5: CTA Card -->
+				<div class="relative overflow-hidden rounded-2xl bg-primary flex flex-col items-center justify-center text-center p-4 gap-3 cursor-pointer hover:bg-primary-light transition-colors">
+					<div class="bg-white/20 p-3 rounded-full text-white">
+						<span class="material-symbols-outlined">grid_view</span>
+					</div>
+					<p class="text-white font-bold text-lg leading-tight">View Full <br/>Gallery</p>
+				</div>
+			</div>
+		</section>
+	}
+}
