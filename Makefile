@@ -8,20 +8,13 @@ generate:
 	@echo "Generating templ templates"
 	templ generate
 
-
 # Default target
 .PHONY: build
 build: generate
 	@echo "Building WASM module with TinyGo..."
 	tinygo build -o main.wasm -target wasm .
-	@if [ ! -f wasm_exec.js ]; then \
-		echo "Copying wasm_exec.js..."; \
-		cp $$(tinygo env TINYGOROOT)/targets/wasm_exec.js .; \
-	else \
-		echo "wasm_exec.js already exists. Skipping copy."; \
-	fi
+	@powershell -Command "if (!(Test-Path wasm_exec.js)) { Copy-Item \"$$(tinygo env TINYGOROOT)/targets/wasm_exec.js\" -Destination . }"
 	@echo "Build complete."
-
 deploy: build
 	@echo Deploying to Cloudflare
 	wrangler deploy

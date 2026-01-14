@@ -91,6 +91,77 @@ export default {
       }
 
       const url = new URL(request.url);
+
+      // Handle Google Drive Photo Proxy
+      if (url.pathname.startsWith("/gdrivephoto/")) {
+        const fileId = url.pathname.replace("/gdrivephoto/", "");
+        if (fileId) {
+          const driveUrl = `https://drive.google.com/uc?id=${fileId}`;
+          const imageResponse = await fetch(driveUrl);
+          // Create a new response to allow embedding (CORS/Headers if needed, 
+          // though usually direct proxying works fine for basic embedding).
+          // We return the response directly.
+          return new Response(imageResponse.body, {
+            headers: imageResponse.headers,
+            status: imageResponse.status,
+            statusText: imageResponse.statusText
+          });
+        }
+      }
+
+      // Handle Google Photos Proxy
+      if (url.pathname.startsWith("/gphotophoto/")) {
+        const shareId = url.pathname.replace("/gphotophoto/", "");
+        if (shareId) {
+          const photoUrl = `https://photos.app.goo.gl/${shareId}`;
+          // Fetch the page with redirect follow to get the final URL
+          const pageResponse = await fetch(photoUrl, {
+            redirect: "follow",
+            headers: {
+              "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            },
+          });
+
+          const html = await pageResponse.text();
+          // Look for og:image
+          const match = html.match(
+            /<meta\s+property="og:image"\s+content="([^"]+)"/,
+          );
+          if (match && match[1]) {
+            let imageUrl = match[1];
+            // Remove existing parameters if any (usually after an =)
+            // and append =d to get the original/download size
+            // or =w10000-h10000 to get a very large version displayed
+            // The og:image usually ends with =w...-h...
+            // We can replace the suffix or just append if we are careful.
+            // Safest: find the last = and replace everything after it with d or w9999
+
+            // Regex to replace the last =... part or append if missing
+            // Using =w16383-h16383-no (max size generally) to get full size without forcing download
+            const fullSizeParam = "=w16383-h16383-no";
+
+            if (imageUrl.includes("=")) {
+              imageUrl = imageUrl.substring(0, imageUrl.lastIndexOf("=")) + fullSizeParam;
+            } else {
+              imageUrl += fullSizeParam;
+            }
+
+            const imageResponse = await fetch(imageUrl);
+
+            // Recreate headers to strip Content-Disposition if present
+            const newHeaders = new Headers(imageResponse.headers);
+            newHeaders.delete("Content-Disposition");
+
+            return new Response(imageResponse.body, {
+              headers: newHeaders,
+              status: imageResponse.status,
+              statusText: imageResponse.statusText,
+            });
+          }
+        }
+      }
+
       const route = ROUTES[url.pathname];
 
       if (route) {

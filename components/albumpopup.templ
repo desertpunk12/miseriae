@@ -1,0 +1,265 @@
+package components
+
+templ AlbumPopup() {
+    <div id="album-popup" class="hidden fixed inset-0 z-[100] bg-[#fff5f9] overflow-y-auto font-['Noto_Sans'] text-gray-800">
+        <!-- Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        
+        <!-- Styles -->
+        <style type="text/tailwindcss">
+            @layer components {
+                .polaroid-card {
+                    @apply bg-white p-4 pb-14 shadow-[0_10px_30px_-10px_rgba(255,51,161,0.2)] border border-pink-100 relative transition-transform duration-500 hover:scale-[1.02] hover:z-30;
+                }
+                .washi-tape-strip {
+                    @apply absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-7 bg-pink-200/50 backdrop-blur-[2px] z-20 mix-blend-multiply pointer-events-none;
+                    mask-image: url("data:image/svg+xml,%3Csvg width='100' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L10 5 L20 0 L30 5 L40 0 L50 5 L60 0 L70 5 L80 0 L90 5 L100 0 L100 20 L90 15 L80 20 L70 15 L60 20 L50 15 L40 20 L30 15 L20 20 L10 15 L0 20 Z' /%3E%3C/svg%3E");
+                    mask-size: cover;
+                }
+                .deco-sticker {
+                    @apply absolute z-20 pointer-events-none drop-shadow-md transition-transform hover:scale-110;
+                }
+                .bubble-pill {
+                    @apply rounded-full px-5 py-2 font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md flex items-center gap-2;
+                }
+                .masonry-item {
+                    @apply break-inside-avoid mb-12;
+                }
+            }
+            /* Custom Scrollbar */
+            ::-webkit-scrollbar {
+                width: 10px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #fff5f9;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #ff85c1;
+                border-radius: 10px;
+                border: 2px solid #fff5f9;
+            }
+        </style>
+
+        <!-- Background Sparkles -->
+        <div class="fixed inset-0 pointer-events-none z-0 opacity-60 bg-[url('data:image/svg+xml,%3Csvg%20width=%2730%27%20height=%2730%27%20viewBox=%270%200%2030%2030%27%20xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpath%20d=%27M15%200L18.5%2011.5L30%2015L18.5%2018.5L15%2030L11.5%2018.5L0%2015L11.5%2011.5L15%200Z%27%20fill=%27%23ff33a1%27%20fill-opacity=%270.1%27/%3E%3C/svg%3E')]"></div>
+
+        <!-- Header -->
+        <header class="fixed top-0 left-0 right-0 z-[100] bg-white/80 backdrop-blur-xl border-b border-[#ffdcf0]/40 px-6 py-4">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <button class="flex items-center gap-2 group text-[#ff0080] font-bold hover:text-[#ff33a1] transition-all" onclick="toggleAlbumPopup(false)">
+                    <span class="material-symbols-outlined transition-transform group-hover:-translate-x-1">arrow_back_ios</span>
+                    <span class="font-['DynaPuff'] text-lg">Back to Albums</span>
+                </button>
+                <div class="hidden md:block absolute left-1/2 -translate-x-1/2 text-center">
+                    <h1 class="font-['DynaPuff'] text-2xl text-[#ff0080]">
+                        Album: <span class="text-[#ff85c1]">Spirit Blossom Ahri</span>
+                    </h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-['DynaPuff'] text-[#ff33a1] hidden sm:block tracking-widest uppercase">Miseriae • Professional Cosplayer</span>
+                    <div class="flex gap-2">
+                        <button class="size-10 bg-white border border-[#ffdcf0] rounded-full flex items-center justify-center text-[#ff33a1] hover:bg-[#ffdcf0]/30 transition-all">
+                            <span class="material-symbols-outlined text-xl">favorite</span>
+                        </button>
+                        <button class="size-10 bg-white border border-[#ffdcf0] rounded-full flex items-center justify-center text-[#ff33a1] hover:bg-[#ffdcf0]/30 transition-all">
+                            <span class="material-symbols-outlined text-xl">share</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="relative z-10 pt-32 pb-32 px-6 max-w-[1200px] mx-auto">
+            <div class="columns-1 md:columns-2 gap-12 space-y-12">
+                <!-- Item 1 -->
+                <div class="masonry-item">
+                    <div class="polaroid-card -rotate-1">
+                        <div class="washi-tape-strip bg-pink-300/40 rotate-1"></div>
+                        <span class="material-symbols-outlined deco-sticker -top-6 -right-4 text-4xl text-[#fff04d] rotate-12">stars</span>
+                        <img
+                            alt="Spirit Blossom Ahri 1"
+                            class="w-full h-auto object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMF5gu1PSjWweqMzv07gBdOfiLC2k3xrn2T6RuAKg97exnZh-wEISYtHEsX2BUheyWkIcQPybDWGIqKEwxOygOvyckhUoFfFfiCMlaHIPsNnjLeLsaF2iUfhRxTs8-mvHrXZN9MpkegFNv0m-kKUmObZfz2JQ1oVffiD-ptBw8YnKxPQCE6gs-_xxW6-iaQjx1NFb-6vm7JP-fhk0c_oOHTvcCt0xDbTONG1LKlf0MDUYreVyLHMYWGxkBKLSaCZaxnoXRh0N5oGuD"
+                        />
+                        <div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
+                            <span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Evening Sakura Path</span>
+                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">01 / 06</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="masonry-item">
+                    <div class="polaroid-card rotate-2">
+                        <div class="washi-tape-strip bg-blue-200/40 -rotate-2"></div>
+                        <img
+                            alt="Spirit Blossom Ahri 2"
+                            class="w-full h-auto object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBkd_P0Y8FGrHdaPTUOPP6GIMU6sF6YMQpoNOaoY9t3ApM4SoNou0xEkFCQBlZvTa6pwA1wllUCuezZJFBzUAhljKXY4F8nBJ7sYpaGc7DG_nZRIGn2LcyXCcNSH6L6JWQqVqDbEy4Yc7GQe-996Smce2Hu2XrAAHpOk7izeqlQAmkdOohOj9u_mWn7Nu0C5lG1D6rjNubbRl8Fr0K2iF_08bcKD0HUPld6vRvP-yXa-lYE_nTo4pylNUT4vM6qWv2tirBe8GZc9oU"
+                        />
+                        <span class="material-symbols-outlined deco-sticker bottom-12 -left-6 text-[#ff0080] text-4xl rotate-[-15deg]">favorite</span>
+                        <div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
+                            <span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Foxfire Whispers</span>
+                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">02 / 06</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="masonry-item">
+                    <div class="polaroid-card -rotate-2">
+                        <div class="washi-tape-strip bg-yellow-100/60 rotate-3"></div>
+                        <img
+                            alt="Spirit Blossom Ahri 3"
+                            class="w-full h-auto object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD37aC-oxbJemT1Z3wT1sAA0tsC2JpaRG6bBTcprLEIWxNEn4z9-56M--AZfAqKVWLytB6gyshvc_5BAhatEYUSmp9zAppp0jeaHSYye3_DKzmmhPU8Hz_RpguWYRCBNqpHFE6L5FKQserihZw9_eleP5adh1ArVOqbdCPQZfXgwvuupBj3KK9wVOW2MBxjYZXnxsGwhVMIiZPGKRU66uFy4l7WkJ9F-tu8R_sFruuv7lMf7kLDyWwbfn-WssStm8_3oDE-0sJwo2I8"
+                        />
+                        <span class="material-symbols-outlined deco-sticker top-20 -right-4 text-3xl text-[#ff33a1]">colors</span>
+                        <div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
+                            <span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Gaze of the Spirit</span>
+                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">03 / 06</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="masonry-item">
+                    <div class="polaroid-card rotate-1">
+                        <div class="washi-tape-strip bg-[#ffdcf0]/50 -rotate-1"></div>
+                        <img
+                            alt="Spirit Blossom Ahri 4"
+                            class="w-full h-auto object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_Xb80DxAgpQ4Cs20EMuMd0eDR_4q4WVvE4DR3xGiUpGDnG-ElLUqJzEhZCdNLD9czrvcrop0pZ1BbQ0V1O4cdIXjtjUYvSD-PaRbJ20H1k-0QoqxjRmQOgxJTHbq_sygFod445ju4QQMaht5WRUkZ03-fu7mkPC396M7YU-T6wYxXbWvqYxTk9g2ciQTIQDaqlygEiotgn2PC1sykOF_aX6qyJuCDp9BmbQ_MrT_Wkf7wKbsDsYNmXUDgmaQSVoxHeNJuoRzI_Ujy"
+                        />
+                        <span class="material-symbols-outlined deco-sticker -bottom-6 -right-2 text-4xl text-[#ff85c1]">colors_spark</span>
+                        <div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
+                            <span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Magic Manifest</span>
+                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">04 / 06</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="masonry-item">
+                    <div class="polaroid-card -rotate-1">
+                        <div class="washi-tape-strip bg-purple-200/40 rotate-2"></div>
+                        <img
+                            alt="Spirit Blossom Ahri 5"
+                            class="w-full h-auto object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzyMIh2JQJ-wjIKdB0GPxSQwUbWhHEcJK2y1iuwIij0acWRzFuNuD4ZJjOdGd0Znwtie1wx8cfSRu4kXPMmucdtmg1gvnDKnVJLkBVzroUTRk4i_So9z7sx6Ai378EEdTUhQ73ts-f7hg-JAi57Fg2k6yO43ZUhJ9PIdwPsNUg9WbOzjrHyCkDeRxdM6AidcFfTmqgLTE86le8LDxLXDlRr9Y5AnIPbJnEmN9LdeKBZNrRwmhvQIs7It_yOr-FktdknXbSQE8FjITg"
+                        />
+                        <span class="material-symbols-outlined deco-sticker top-1/2 -left-8 text-3xl text-[#fff04d]">auto_awesome</span>
+                        <div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
+                            <span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Hidden Shrine</span>
+                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">05 / 06</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="masonry-item">
+                    <div class="polaroid-card rotate-1">
+                        <div class="washi-tape-strip bg-[#fff04d]/30 -rotate-3"></div>
+                        <img
+                            alt="Spirit Blossom Ahri 6"
+                            class="w-full h-auto object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpVXUyC3nXT3_sUDMalOuZxD0Qbs-Q5TQoqkrEr_8sNoFaGmwgLfnb_PfZZg9eo0a7gYsi1LBw_G4l7mFVjE2h64JttuU8CqQi8VmN_G775Cx689zI9THEb-c6OGg-8PhkgehmaA20LX97t94QDuihXsatRgw-6yUMhvzYdCCZC-jXt8NmAzW4-USZwkOpJO7X_ygHREQ58EUqqT87WESPjN6BFs5nZ9TTmeMsFh_sEN4St3iJxuwg700Hf4jJmBDokyv0AiSQWr5X"
+                        />
+                        <div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
+                            <span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Spiritual Farewell</span>
+                            <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">06 / 06</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Album Details -->
+            <div class="mt-32 p-10 bg-white/70 backdrop-blur-md rounded-[3rem] border-2 border-white shadow-2xl max-w-3xl mx-auto relative overflow-hidden">
+                <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#ffdcf0] rounded-full blur-3xl opacity-30"></div>
+                <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-[#fff04d] rounded-full blur-3xl opacity-10"></div>
+                <h3 class="font-['DynaPuff'] text-3xl text-[#ff0080] mb-10 text-center flex items-center justify-center gap-3">
+                    <span class="material-symbols-outlined text-4xl">auto_stories</span>
+                    Album Details
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10 mb-12">
+                    <div class="flex items-center gap-5">
+                        <div class="size-14 rounded-2xl bg-white flex items-center justify-center text-[#ff33a1] shadow-sm border border-[#ffdcf0]">
+                            <span class="material-symbols-outlined">photo_camera</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase font-bold text-[#ff85c1] tracking-[0.2em]">Captured By</p>
+                            <p class="font-bold text-[#ff0080] text-xl">Studio Lumina</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-5">
+                        <div class="size-14 rounded-2xl bg-white flex items-center justify-center text-[#ff33a1] shadow-sm border border-[#ffdcf0]">
+                            <span class="material-symbols-outlined">person_pin</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase font-bold text-[#ff85c1] tracking-[0.2em]">Assistant</p>
+                            <p class="font-bold text-[#ff0080] text-xl">Kyoko-chan</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-5 md:col-span-2 justify-center pt-8 border-t border-[#ffdcf0]/30">
+                        <div class="size-14 rounded-2xl bg-white flex items-center justify-center text-[#ff33a1] shadow-sm border border-[#ffdcf0]">
+                            <span class="material-symbols-outlined">festival</span>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase font-bold text-[#ff85c1] tracking-[0.2em]">Location</p>
+                            <p class="font-bold text-[#ff0080] text-xl">Sakura Matsuri 2024</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center gap-6">
+                    <p class="font-['DynaPuff'] text-[#ff85c1] text-xl italic text-center">
+                        "Hope you enjoyed this journey into the spirit realm! ✨"
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button class="bubble-pill bg-gradient-to-br from-[#ff33a1] to-[#ff85c1] text-white hover:shadow-[#ff33a1]/40">
+                            <span class="material-symbols-outlined">favorite</span>
+                            Support this set
+                        </button>
+                        <button class="bubble-pill bg-white border-2 border-[#ffdcf0] text-[#ff33a1] hover:bg-[#fff0f6]">
+                            <span class="material-symbols-outlined">download</span>
+                            Download HD
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="pb-24 text-center relative z-10 opacity-70">
+            <div class="flex justify-center gap-6 mb-8">
+                <a class="size-12 bg-white rounded-xl shadow-md border border-[#ffdcf0] text-[#ff33a1] flex items-center justify-center hover:-translate-y-1 hover:rotate-6 transition-all" href="#">
+                    <span class="material-symbols-outlined">brand_awareness</span>
+                </a>
+                <a class="size-12 bg-white rounded-xl shadow-md border border-[#ffdcf0] text-[#ff33a1] flex items-center justify-center hover:-translate-y-1 hover:-rotate-6 transition-all" href="#">
+                    <span class="material-symbols-outlined">alternate_email</span>
+                </a>
+            </div>
+            <p class="font-['DynaPuff'] text-[#ff33a1] text-sm tracking-widest uppercase">
+                Miseriae • Professional Cosplayer & Educator
+            </p>
+            <p class="mt-2 text-[10px] text-gray-400 font-bold">
+                © 2024 ALL RIGHTS RESERVED
+            </p>
+        </footer>
+
+        <!-- Floating Controls -->
+        <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex gap-4 p-3 bg-white/90 backdrop-blur-md rounded-full border border-[#ffdcf0]/50 shadow-2xl">
+            <button class="bubble-pill bg-[#ff33a1] text-white text-sm" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+                <span class="material-symbols-outlined text-lg">arrow_upward</span>
+                Top
+            </button>
+            <button class="bubble-pill bg-white text-[#ff33a1] border border-[#ffdcf0] text-sm hover:bg-[#fff0f6]">
+                Next Album
+                <span class="material-symbols-outlined text-lg">arrow_forward</span>
+            </button>
+        </div>
+    </div>
+}

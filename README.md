@@ -83,4 +83,8 @@ make deploy
 ## Troubleshooting
 
 -   **"syscall/js: not supported by TinyGo"**: Ensure you are using `tinygo build` and not standard `go build`.
+-   **"could not find wasm-opt"**: On Windows, install binaryen using scoop:
+    ```bash
+    scoop install binaryen
+    ```
 -   **Wrangler Errors**: Make sure you have authenticated with Cloudflare using `wrangler login`.

@@ -1,5 +1,7 @@
 package pages
 
+import "cloudflare-worker-boilerplate/components"
+
 templ CosplaysHead() {
 	<script id="tailwind-config">
         tailwind.config = {
@@ -94,10 +96,20 @@ templ CosplaysHead() {
         }.masonry-grid > div:not(:first-child) {
             margin-top: -30px;}
     </style>
+	<script>
+        function toggleAlbumPopup(show) {
+            const popup = document.getElementById('album-popup');
+            if (show) {
+                popup.classList.remove('hidden');
+            } else {
+                popup.classList.add('hidden');
+            }
+        }
+    </script>
 }
 
 templ Cosplays() {
-	@Base("Sakura Cosplay Portfolio", CosplaysHead(), nil) {
+	@Base("Miseriae's Cosplays", CosplaysHead(), nil) {
 		<div class="fixed inset-0 pointer-events-none z-0 opacity-40 bg-sparkles"></div>
 		<div class="fixed top-20 left-10 text-primary/30 animate-float pointer-events-none hidden lg:block">
 			<span class="material-symbols-outlined text-7xl">star</span>
@@ -130,7 +142,7 @@ templ Cosplays() {
 		<section class="w-full flex justify-center pb-20">
 			<div class="layout-content-container max-w-[1200px] w-full px-4 md:px-10">
 				<div class="masonry-grid relative pt-8">
-					<div class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-1 origin-top-left">
+					<div onclick="toggleAlbumPopup(true)" class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-1 origin-top-left">
 						<div class="w-full aspect-[3/4] bg-gray-200 overflow-hidden">
 							<img alt="Cosplayer dressed as Ahri from League of Legends" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMF5gu1PSjWweqMzv07gBdOfiLC2k3xrn2T6RuAKg97exnZh-wEISYtHEsX2BUheyWkIcQPybDWGIqKEwxOygOvyckhUoFfFfiCMlaHIPsNnjLeLsaF2iUfhRxTs8-mvHrXZN9MpkegFNv0m-kKUmObZfz2JQ1oVffiD-ptBw8YnKxPQCE6gs-_xxW6-iaQjx1NFb-6vm7JP-fhk0c_oOHTvcCt0xDbTONG1LKlf0MDUYreVyLHMYWGxkBKLSaCZaxnoXRh0N5oGuD"/>
 						</div>
@@ -147,7 +159,7 @@ templ Cosplays() {
 							</div>
 						</div>
 					</div>
-					<div class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-2 origin-top-right">
+					<div onclick="toggleAlbumPopup(true)" class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-2 origin-top-right">
 						<div class="w-full aspect-[4/3] bg-gray-200 overflow-hidden">
 							<img alt="Cosplayer in Sailor Moon costume posing outdoors" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBkd_P0Y8FGrHdaPTUOPP6GIMU6sF6YMQpoNOaoY9t3ApM4SoNou0xEkFCQBlZvTa6pwA1wllUCuezZJFBzUAhljKXY4F8nBJ7sYpaGc7DG_nZRIGn2LcyXCcNSH6L6JWQqVqDbEy4Yc7GQe-996Smce2Hu2XrAAHpOk7izeqlQAmkdOohOj9u_mWn7Nu0C5lG1D6rjNubbRl8Fr0K2iF_08bcKD0HUPld6vRvP-yXa-lYE_nTo4pylNUT4vM6qWv2tirBe8GZc9oU"/>
 						</div>
@@ -164,7 +176,7 @@ templ Cosplays() {
 							</div>
 						</div>
 					</div>
-					<div class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-3 origin-center">
+					<div onclick="toggleAlbumPopup(true)" class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-3 origin-center">
 						<div class="w-full aspect-[9/16] bg-gray-200 overflow-hidden">
 							<img alt="Dramatic portrait of 2B from Nier Automata" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD37aC-oxbJemT1Z3wT1sAA0tsC2JpaRG6bBTcprLEIWxNEn4z9-56M--AZfAqKVWLytB6gyshvc_5BAhatEYUSmp9zAppp0jeaHSYye3_DKzmmhPU8Hz_RpguWYRCBNqpHFE6L5FKQserihZw9_eleP5adh1ArVOqbdCPQZfXgwvuupBj3KK9wVOW2MBxjYZXnxsGwhVMIiZPGKRU66uFy4l7WkJ9F-tu8R_sFruuv7lMf7kLDyWwbfn-WssStm8_3oDE-0sJwo2I8"/>
 						</div>
@@ -181,7 +193,7 @@ templ Cosplays() {
 							</div>
 						</div>
 					</div>
-					<div class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-4 origin-bottom-left">
+					<div onclick="toggleAlbumPopup(true)" class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-4 origin-bottom-left">
 						<div class="w-full aspect-square bg-gray-200 overflow-hidden">
 							<img alt="Original witch character costume design" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_Xb80DxAgpQ4Cs20EMuMd0eDR_4q4WVvE4DR3xGiUpGDnG-ElLUqJzEhZCdNLD9czrvcrop0pZ1BbQ0V1O4cdIXjtjUYvSD-PaRbJ20H1k-0QoqxjRmQOgxJTHbq_sygFod445ju4QQMaht5WRUkZ03-fu7mkPC396M7YU-T6wYxXbWvqYxTk9g2ciQTIQDaqlygEiotgn2PC1sykOF_aX6qyJuCDp9BmbQ_MrT_Wkf7wKbsDsYNmXUDgmaQSVoxHeNJuoRzI_Ujy"/>
 						</div>
@@ -198,7 +210,7 @@ templ Cosplays() {
 							</div>
 						</div>
 					</div>
-					<div class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-5 origin-top-right">
+					<div onclick="toggleAlbumPopup(true)" class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-5 origin-top-right">
 						<div class="w-full aspect-[3/4] bg-gray-200 overflow-hidden">
 							<img alt="Cosplayer as Ganyu from Genshin Impact holding a bow" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzyMIh2JQJ-wjIKdB0GPxSQwUbWhHEcJK2y1iuwIij0acWRzFuNuD4ZJjOdGd0Znwtie1wx8cfSRu4kXPMmucdtmg1gvnDKnVJLkBVzroUTRk4i_So9z7sx6Ai378EEdTUhQ73ts-f7hg-JAi57Fg2k6yO43ZUhJ9PIdwPsNUg9WbOzjrHyCkDeRxdM6AidcFfTmqgLTE86le8LDxLXDlRr9Y5AnIPbJnEmN9LdeKBZNrRwmhvQIs7It_yOr-FktdknXbSQE8FjITg"/>
 						</div>
@@ -215,7 +227,7 @@ templ Cosplays() {
 							</div>
 						</div>
 					</div>
-					<div class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-6 origin-bottom-right">
+					<div onclick="toggleAlbumPopup(true)" class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-6 origin-bottom-right">
 						<div class="w-full aspect-[3/5] bg-gray-200 overflow-hidden">
 							<img alt="Cyberpunk style cosplay with neon lights" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpVXUyC3nXT3_sUDMalOuZxD0Qbs-Q5TQoqkrEr_8sNoFaGmwgLfnb_PfZZg9eo0a7gYsi1LBw_G4l7mFVjE2h64JttuU8CqQi8VmN_G775Cx689zI9THEb-c6OGg-8PhkgehmaA20LX97t94QDuihXsatRgw-6yUMhvzYdCCZC-jXt8NmAzW4-USZwkOpJO7X_ygHREQ58EUqqT87WESPjN6BFs5nZ9TTmeMsFh_sEN4St3iJxuwg700Hf4jJmBDokyv0AiSQWr5X"/>
 						</div>
@@ -232,7 +244,7 @@ templ Cosplays() {
 							</div>
 						</div>
 					</div>
-					<div class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-7 origin-top-left">
+					<div onclick="toggleAlbumPopup(true)" class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-7 origin-top-left">
 						<div class="w-full aspect-square bg-gray-200 overflow-hidden">
 							<img alt="Cosplayer as Yor Forger holding weapons" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUmtC3AjnnPU5Y4TNePCaduxt3uOVauVX2QnVxvjo4FJmNgzj4J3IQJgSaoMD8EOnCpSNykBXbXPvh-6v9L_S0bIepuHlry2HAi1PXEm_xqsY8T-u9qMw1ZvoQ-Fx7Bf0rUz0qfgh0h-cnyPBTGtX-eez90z6xkuxSyAjLF7KcRQZI33g2f5E00B8bRxqlzA_mbIALeLsJWVZ0kad1Obx2GbQbbFQlrs4RQYfAH5EwxAhb63gRcbAGYrjIsRc7I5LVkcUO0f-Qr0mn"/>
 						</div>
@@ -249,7 +261,7 @@ templ Cosplays() {
 							</div>
 						</div>
 					</div>
-					<div class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-8 origin-bottom-right">
+					<div onclick="toggleAlbumPopup(true)" class="mb-6 break-inside-avoid relative group rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300 card-transform-8 origin-bottom-right">
 						<div class="w-full aspect-[4/3] bg-gray-200 overflow-hidden">
 							<img alt="Cosplayer as D.Va with gaming headset" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjJeL8qe59Pwf6FPprWqEnD-sinNANTGb6tMndfFkbnc11YVeLcPzZW4VYk7W5SLpiG7cDqa6gmJxeUzgpFfpOgdFCNz06hMSq3xRV7fvkNCExZfQ9qs9EBp2UtPZD5peZkLwIGfGdnvAV8lUagDXRyGiSnufie8CQgPNZtvS-Cz5SpFC0qLxs_6v-HaupPCFOf5jMPJ43UnC6Hxigk7jOQl2qQFhLcybT_ofAUTTkqSi8ISsMxBqWW2wPmV5DzcK0SykCc1EkG_ZA"/>
 						</div>
@@ -282,4 +294,5 @@ templ Cosplays() {
 			</button>
 		</div>
 	}
+	@components.Alp()
 }
