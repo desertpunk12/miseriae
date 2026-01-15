@@ -15,7 +15,9 @@ templ ResumeHead() {
                         "text-dark": "#181114",
                         "text-light": "#f4f0f2",
                         "muted-light": "#896175",
-                        "muted-dark": "#d1a8be"
+                        "muted-dark": "#d1a8be",
+                        "text-muted": "#896175", // Muted text for navigation
+                        "text-main": "#181114" // Main text alias
                     },
                     fontFamily: {
                         "display": ["Spline Sans", "sans-serif"]
@@ -46,7 +48,7 @@ templ ResumeHead() {
 }
 
 templ Resume() {
-	@Base("Official Professional Resume - Lailie O. Saquilabon", ResumeHead(), nil) {
+	@Base("Resume - Lailie O. Saquilabon", ResumeHead(), nil, "resume") {
 		<div class="flex flex-col items-center w-full py-8 md:py-1 px-4 md:px-8">
 			<div class="w-full max-w-[1080px] flex flex-col gap-8">
 				<!-- Profile Section -->

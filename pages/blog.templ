@@ -1,86 +1,16 @@
 package pages
 
+import (
+    "cloudflare-worker-boilerplate/cms"
+)
+
 templ BlogHead() {
-	<script id="tailwind-config">
-		tailwind.config = {
-			darkMode: "class",
-			theme: {
-				extend: {
-					colors: {
-						"primary": "#ff69b4", // Hot Pink - Main Bubblegum color
-						"primary-light": "#ffd1e8", // Light Pink for backgrounds
-						"primary-dark": "#e05da5", // Darker pink for hovers
-						"background-light": "#fff5f9", // Very light pinkish white
-						"background-dark": "#3c1e30", // Dark mode background
-						"accent-pink": "#f786c2", // Secondary playful pink
-						"accent-purple": "#e0b0ff", // Playful purple accent
-						"text-dark": "#4a1936", // Dark text for contrast
-					},
-					fontFamily: {
-						"display": ["Spline Sans", "sans-serif"],
-						"body": ["Noto Sans", "sans-serif"]
-					},
-					borderRadius: {
-						"DEFAULT": "1rem",
-						"lg": "1.5rem",
-						"xl": "2rem",
-						"2xl": "3rem", // Increased for a bubblier feel
-						"3xl": "4rem",
-						"full": "9999px",
-						"bubble-sm": "30% 70% 70% 30% / 50% 50% 50% 50%",
-						"bubble-md": "60% 40% 30% 70% / 50% 40% 60% 50%",
-						"bubble-lg": "40% 60% 60% 40% / 70% 50% 50% 30%",
-					},
-					backgroundImage: {
-						'sparkles': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff69b4' fill-opacity='0.15'%3E%3Cpath d='M20 0L22.5 7.5L30 10L22.5 12.5L20 20L17.5 12.5L10 10L17.5 7.5L20 0Z'/%3E%3Cpath d='M5 15L7.5 22.5L15 25L7.5 27.5L5 35L2.5 27.5L-5 25L2.5 22.5L5 15Z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
-						'gradient-pop': 'linear-gradient(135deg, #ff69b4, #f786c2, #e0b0ff)',
-					},
-					boxShadow: {
-						'pop': '0 10px 20px -5px rgba(255, 105, 180, 0.3), 0 4px 6px -2px rgba(255, 105, 180, 0.1)',
-						'pop-lg': '0 20px 30px -10px rgba(255, 105, 180, 0.4), 0 8px 12px -4px rgba(255, 105, 180, 0.15)',
-					}
-				},
-			},
-		}
-	</script>
-	<style>
-		::-webkit-scrollbar {
-			width: 8px;
-		}
-		::-webkit-scrollbar-track {
-			background: #fff5f9;
-		}
-		::-webkit-scrollbar-thumb {
-			background: #ff69b4;
-			border-radius: 4px;
-		}
-		::-webkit-scrollbar-thumb:hover {
-			background: #e05da5;
-		}
-		.blog-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-			gap: 2rem;
-		}
-		.blog-grid > div:nth-child(5n+1) { transform: rotate(-2deg); margin-top: 0rem; }
-		.blog-grid > div:nth-child(5n+2) { transform: rotate(2.5deg); margin-top: 2rem; }
-		.blog-grid > div:nth-child(5n+3) { transform: rotate(1deg); margin-top: -1.5rem; }
-		.blog-grid > div:nth-child(5n+4) { transform: rotate(-3deg); margin-top: 2.5rem; }
-		.blog-grid > div:nth-child(5n+5) { transform: rotate(1.5deg); margin-top: -1rem; }
-		.blog-card {
-			transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-		}
-		.blog-card:hover {
-			transform: translateY(-12px) scale(1.03) rotate(0deg) !important;
-			z-index: 10;
-		}
-	</style>
+	<link rel="stylesheet" href="/assets/styles/blog.css"/>
 }
 
-templ Blog() {
-	@Base("Bubblegum Pop Blog Feed", BlogHead(), templ.Attributes{"class": "bg-gradient-to-br from-background-light to-primary-light/50 dark:bg-background-dark font-display text-text-dark dark:text-white transition-colors duration-300"}) {
+templ Blog(posts []cms.BlogPost) {
+	@Base("Bubblegum Pop Blog Feed", BlogHead(), templ.Attributes{"class": "bg-gradient-to-br from-background-light to-primary-light/50 dark:bg-background-dark font-display text-text-dark dark:text-white transition-colors duration-300"}, "blog") {
 		<div class="fixed inset-0 pointer-events-none z-0 opacity-80 bg-sparkles"></div>
-		
 		<!-- Title Section -->
 		<section class="w-full flex justify-center py-10 md:py-16 text-center relative z-10">
 			<div class="flex flex-col items-center max-w-[960px] w-full gap-4">
@@ -92,7 +22,6 @@ templ Blog() {
 				</p>
 			</div>
 		</section>
-
 		<!-- Filter Buttons (Sticky) -->
 		<section class="w-full flex justify-center pb-8 sticky top-[69px] z-40 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm py-4 transition-colors">
 			<div class="flex flex-col w-full">
@@ -101,13 +30,10 @@ templ Blog() {
 						<span class="material-symbols-outlined text-base font-variation-settings-FILL-1">favorite</span>
 						<span>All Posts</span>
 					</button>
+                    <!-- Filter buttons functionality would need JS, keeping static for now but they could filter the 'posts' list client-side or server-side -->
 					<button class="group flex h-14 shrink-0 items-center justify-center gap-x-2 rounded-bubble-lg bg-white/80 dark:bg-white/10 border-2 border-accent-pink/50 dark:border-primary-dark/40 hover:border-primary hover:bg-primary-light/50 dark:hover:bg-primary-dark/20 px-7 transition-all transform hover:-translate-y-1">
 						<span class="text-primary text-xl">🛠️</span>
 						<p class="text-text-dark dark:text-gray-200 text-base font-medium group-hover:text-primary">Tutorials</p>
-					</button>
-					<button class="group flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-bubble-sm bg-white/80 dark:bg-white/10 border-2 border-accent-pink/50 dark:border-primary-dark/40 hover:border-primary hover:bg-primary-light/50 dark:hover:bg-primary-dark/20 px-6 transition-all transform hover:-translate-y-1">
-						<span class="text-primary text-xl">🎬</span>
-						<p class="text-text-dark dark:text-gray-200 text-base font-medium group-hover:text-primary">Vlogs</p>
 					</button>
 					<button class="group flex h-14 shrink-0 items-center justify-center gap-x-2 rounded-bubble-md bg-white/80 dark:bg-white/10 border-2 border-accent-pink/50 dark:border-primary-dark/40 hover:border-primary hover:bg-primary-light/50 dark:hover:bg-primary-dark/20 px-7 transition-all transform hover:-translate-y-1">
 						<span class="text-primary text-xl">💖</span>
@@ -116,83 +42,49 @@ templ Blog() {
 				</div>
 			</div>
 		</section>
-
 		<!-- Blog Grid -->
 		<section class="w-full flex justify-center pb-20 pt-8 relative z-10">
 			<div class="w-full">
 				<div class="blog-grid">
-					<!-- Card 1 -->
-					<div class="blog-card relative bg-white dark:bg-background-dark/80 rounded-2xl border-4 border-primary p-4 shadow-pop hover:shadow-pop-lg">
-						<div class="absolute -top-5 left-6 bg-accent-purple text-white px-4 py-1 rounded-bubble-sm text-sm font-bold transform -rotate-12 z-10 shadow-md">Tutorial</div>
-						<div class="rounded-xl overflow-hidden mb-4">
-							<img alt="Cosplayer dressed as Ahri from League of Legends" class="w-full h-auto object-cover aspect-video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMF5gu1PSjWweqMzv07gBdOfiLC2k3xrn2T6RuAKg97exnZh-wEISYtHEsX2BUheyWkIcQPybDWGIqKEwxOygOvyckhUoFfFfiCMlaHIPsNnjLeLsaF2iUfhRxTs8-mvHrXZN9MpkegFNv0m-kKUmObZfz2JQ1oVffiD-ptBw8YnKxPQCE6gs-_xxW6-iaQjx1NFb-6vm7JP-fhk0c_oOHTvcCt0xDbTONG1LKlf0MDUYreVyLHMYWGxkBKLSaCZaxnoXRh0N5oGuD"/>
-						</div>
-						<div class="relative bg-white -mt-12 rounded-bubble-md p-4 text-center z-10">
-							<h3 class="text-xl font-bold text-text-dark mb-2">My Ahri Cosplay Guide</h3>
-						</div>
-						<p class="text-text-dark/80 dark:text-gray-300 text-sm mb-4 px-2">A step-by-step guide on how I created my Nine-Tailed Fox cosplay, from the ears to the tails!</p>
-						<button class="w-full flex h-12 items-center justify-center gap-x-2 rounded-full bg-gradient-pop text-white shadow-md hover:shadow-lg transition-all transform hover:scale-105 font-bold">Read More <span class="material-symbols-outlined">arrow_forward</span></button>
-					</div>
-					<!-- Card 2 -->
-					<div class="blog-card relative bg-white dark:bg-background-dark/80 rounded-2xl border-4 border-primary p-4 shadow-pop hover:shadow-pop-lg">
-						<div class="absolute -top-5 left-6 bg-accent-pink text-white px-4 py-1 rounded-bubble-lg text-sm font-bold transform rotate-6 z-10 shadow-md">Life Update</div>
-						<div class="rounded-xl overflow-hidden mb-4">
-							<img alt="Cosplayer in Sailor Moon costume posing outdoors" class="w-full h-auto object-cover aspect-video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBkd_P0Y8FGrHdaPTUOPP6GIMU6sF6YMQpoNOaoY9t3ApM4SoNou0xEkFCQBlZvTa6pwA1wllUCuezZJFBzUAhljKXY4F8nBJ7sYpaGc7DG_nZRIGn2LcyXCcNSH6L6JWQqVqDbEy4Yc7GQe-996Smce2Hu2XrAAHpOk7izeqlQAmkdOohOj9u_mWn7Nu0C5lG1D6rjNubbRl8Fr0K2iF_08bcKD0HUPld6vRvP-yXa-lYE_nTo4pylNUT4vM6qWv2tirBe8GZc9oU"/>
-						</div>
-						<div class="relative bg-white -mt-12 rounded-bubble-lg p-4 text-center z-10">
-							<h3 class="text-xl font-bold text-text-dark mb-2">Fighting Evil By Moonlight</h3>
-						</div>
-						<p class="text-text-dark/80 dark:text-gray-300 text-sm mb-4 px-2">Recap of my latest convention adventure and the amazing people I met. Plus, a Sailor Moon photoshoot diary!</p>
-						<button class="w-full flex h-12 items-center justify-center gap-x-2 rounded-full bg-gradient-pop text-white shadow-md hover:shadow-lg transition-all transform hover:scale-105 font-bold">Read More <span class="material-symbols-outlined">arrow_forward</span></button>
-					</div>
-					<!-- Card 3 -->
-					<div class="blog-card relative bg-white dark:bg-background-dark/80 rounded-2xl border-4 border-primary p-4 shadow-pop hover:shadow-pop-lg">
-						<div class="absolute -top-5 left-6 bg-accent-purple text-white px-4 py-1 rounded-bubble-md text-sm font-bold transform -rotate-6 z-10 shadow-md">Tutorial</div>
-						<div class="rounded-xl overflow-hidden mb-4">
-							<img alt="Dramatic portrait of 2B from Nier Automata" class="w-full h-auto object-cover aspect-video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD37aC-oxbJemT1Z3wT1sAA0tsC2JpaRG6bBTcprLEIWxNEn4z9-56M--AZfAqKVWLytB6gyshvc_5BAhatEYUSmp9zAppp0jeaHSYye3_DKzmmhPU8Hz_RpguWYRCBNqpHFE6L5FKQserihZw9_eleP5adh1ArVOqbdCPQZfXgwvuupBj3KK9wVOW2MBxjYZXnxsGwhVMIiZPGKRU66uFy4l7WkJ9F-tu8R_sFruuv7lMf7kLDyWwbfn-WssStm8_3oDE-0sJwo2I8"/>
-						</div>
-						<div class="relative bg-white -mt-12 rounded-bubble-sm p-4 text-center z-10">
-							<h3 class="text-xl font-bold text-text-dark mb-2">Crafting 2B's Virtuous Treaty</h3>
-						</div>
-						<p class="text-text-dark/80 dark:text-gray-300 text-sm mb-4 px-2">Want to build your own giant sword? Here's my process for creating lightweight, con-safe props that look amazing.</p>
-						<button class="w-full flex h-12 items-center justify-center gap-x-2 rounded-full bg-gradient-pop text-white shadow-md hover:shadow-lg transition-all transform hover:scale-105 font-bold">Read More <span class="material-symbols-outlined">arrow_forward</span></button>
-					</div>
-					<!-- Card 4 -->
-					<div class="blog-card relative bg-white dark:bg-background-dark/80 rounded-2xl border-4 border-primary p-4 shadow-pop hover:shadow-pop-lg">
-						<div class="absolute -top-5 left-6 bg-primary text-white px-4 py-1 rounded-bubble-sm text-sm font-bold transform rotate-12 z-10 shadow-md">Vlog</div>
-						<div class="rounded-xl overflow-hidden mb-4">
-							<img alt="Original witch character costume design" class="w-full h-auto object-cover aspect-video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_Xb80DxAgpQ4Cs20EMuMd0eDR_4q4WVvE4DR3xGiUpGDnG-ElLUqJzEhZCdNLD9czrvcrop0pZ1BbQ0V1O4cdIXjtjUYvSD-PaRbJ20H1k-0QoqxjRmQOgxJTHbq_sygFod445ju4QQMaht5WRUkZ03-fu7mkPC396M7YU-T6wYxXbWvqYxTk9g2ciQTIQDaqlygEiotgn2PC1sykOF_aX6qyJuCDp9BmbQ_MrT_Wkf7wKbsDsYNmXUDgmaQSVoxHeNJuoRzI_Ujy"/>
-						</div>
-						<div class="relative bg-white -mt-12 rounded-bubble-md p-4 text-center z-10">
-							<h3 class="text-xl font-bold text-text-dark mb-2">A Day in My Craft Room</h3>
-						</div>
-						<p class="text-text-dark/80 dark:text-gray-300 text-sm mb-4 px-2">Come hang out with me! A cozy vlog showing my creative chaos, current projects, and a special announcement.</p>
-						<button class="w-full flex h-12 items-center justify-center gap-x-2 rounded-full bg-gradient-pop text-white shadow-md hover:shadow-lg transition-all transform hover:scale-105 font-bold">Read More <span class="material-symbols-outlined">arrow_forward</span></button>
-					</div>
-					<!-- Card 5 -->
-					<div class="blog-card relative bg-white dark:bg-background-dark/80 rounded-2xl border-4 border-primary p-4 shadow-pop hover:shadow-pop-lg">
-						<div class="absolute -top-5 left-6 bg-accent-pink text-white px-4 py-1 rounded-bubble-lg text-sm font-bold transform -rotate-6 z-10 shadow-md">Life Update</div>
-						<div class="rounded-xl overflow-hidden mb-4">
-							<img alt="Cosplayer as Ganyu from Genshin Impact holding a bow" class="w-full h-auto object-cover aspect-video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzyMIh2JQJ-wjIKdB0GPxSQwUbWhHEcJK2y1iuwIij0acWRzFuNuD4ZJjOdGd0Znwtie1wx8cfSRu4kXPMmucdtmg1gvnDKnVJLkBVzroUTRk4i_So9z7sx6Ai378EEdTUhQ73ts-f7hg-JAi57Fg2k6yO43ZUhJ9PIdwPsNUg9WbOzjrHyCkDeRxdM6AidcFfTmqgLTE86le8LDxLXDlRr9Y5AnIPbJnEmN9LdeKBZNrRwmhvQIs7It_yOr-FktdknXbSQE8FjITg"/>
-						</div>
-						<div class="relative bg-white -mt-12 rounded-bubble-lg p-4 text-center z-10">
-							<h3 class="text-xl font-bold text-text-dark mb-2">My Top 5 Cosplay Goals!</h3>
-						</div>
-						<p class="text-text-dark/80 dark:text-gray-300 text-sm mb-4 px-2">Sharing my dream cosplay list for the next year. Which one should I tackle first? Let me know in the comments!</p>
-						<button class="w-full flex h-12 items-center justify-center gap-x-2 rounded-full bg-gradient-pop text-white shadow-md hover:shadow-lg transition-all transform hover:scale-105 font-bold">Read More <span class="material-symbols-outlined">arrow_forward</span></button>
-					</div>
-					<!-- Card 6 -->
-					<div class="blog-card relative bg-white dark:bg-background-dark/80 rounded-2xl border-4 border-primary p-4 shadow-pop hover:shadow-pop-lg">
-						<div class="absolute -top-5 left-6 bg-accent-purple text-white px-4 py-1 rounded-bubble-sm text-sm font-bold transform rotate-12 z-10 shadow-md">Tutorial</div>
-						<div class="rounded-xl overflow-hidden mb-4">
-							<img alt="Cyberpunk style cosplay with neon lights" class="w-full h-auto object-cover aspect-video" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpVXUyC3nXT3_sUDMalOuZxD0Qbs-Q5TQoqkrEr_8sNoFaGmwgLfnb_PfZZg9eo0a7gYsi1LBw_G4l7mFVjE2h64JttuU8CqQi8VmN_G775Cx689zI9THEb-c6OGg-8PhkgehmaA20LX97t94QDuihXsatRgw-6yUMhvzYdCCZC-jXt8NmAzW4-USZwkOpJO7X_ygHREQ58EUqqT87WESPjN6BFs5nZ9TTmeMsFh_sEN4St3iJxuwg700Hf4jJmBDokyv0AiSQWr5X"/>
-						</div>
-						<div class="relative bg-white -mt-12 rounded-bubble-sm p-4 text-center z-10">
-							<h3 class="text-xl font-bold text-text-dark mb-2">Beginner's Guide to Worbla</h3>
-						</div>
-						<p class="text-text-dark/80 dark:text-gray-300 text-sm mb-4 px-2">Everything you need to know to get started with this amazing thermoplastic for armor and props. No gatekeeping here!</p>
-						<button class="w-full flex h-12 items-center justify-center gap-x-2 rounded-full bg-gradient-pop text-white shadow-md hover:shadow-lg transition-all transform hover:scale-105 font-bold">Read More <span class="material-symbols-outlined">arrow_forward</span></button>
-					</div>
+                    if len(posts) == 0 {
+                        <div class="col-span-full text-center py-10">
+                            <p class="text-xl text-text-dark/60">No posts found yet! Sync some from Google Drive.</p>
+                        </div>
+                    }
+                    for _, post := range posts {
+                        <!-- Blog Card -->
+                        <div class="blog-card relative bg-white dark:bg-background-dark/80 rounded-2xl border-4 border-primary p-4 shadow-pop hover:shadow-pop-lg transition-all duration-300">
+                            if post.Type != "" {
+                                <div class="absolute -top-5 left-6 bg-accent-purple text-white px-4 py-1 rounded-bubble-sm text-sm font-bold transform -rotate-2 z-10 shadow-md">
+                                    { post.Type }
+                                </div>
+                            }
+                            <div class="rounded-xl overflow-hidden mb-4">
+                                if post.ImageURL != "" {
+                                    <img alt={ post.Title } class="w-full h-auto object-cover aspect-video" src={ post.ImageURL }/>
+                                } else {
+                                    <!-- Fallback placeholder -->
+                                    <div class="w-full aspect-video bg-pink-100 flex items-center justify-center text-pink-300">
+                                        <span class="material-symbols-outlined text-4xl">image</span>
+                                    </div>
+                                }
+                            </div>
+                            <div class="relative bg-white -mt-12 rounded-bubble-md p-4 text-center z-10">
+                                <h3 class="text-xl font-bold text-text-dark mb-2">{ post.Title }</h3>
+                            </div>
+                            <p class="text-text-dark/80 dark:text-gray-300 text-sm mb-4 px-2 line-clamp-3">
+                                if post.Summary != "" {
+                                    { post.Summary }
+                                } else {
+                                    { "Click to read more..." }
+                                }
+                            </p>
+                            <!-- We can link to a detailed view later, for now just a button -->
+                            <button class="w-full flex h-12 items-center justify-center gap-x-2 rounded-full bg-gradient-pop text-white shadow-md hover:shadow-lg transition-all transform hover:scale-105 font-bold">
+                                Read More <span class="material-symbols-outlined">arrow_forward</span>
+                            </button>
+                        </div>
+                    }
 				</div>
 				<div class="flex justify-center mt-16">
 					<button class="flex h-16 items-center justify-center gap-x-3 rounded-full bg-gradient-pop text-white px-10 shadow-pop hover:shadow-pop-lg transition-all transform hover:scale-105 text-lg font-bold">

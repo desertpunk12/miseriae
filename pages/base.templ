@@ -3,14 +3,23 @@ package pages
 // Shared CSS Classes for Base Layout
 const (
 	// Navbar shared classes
-	navLink      = "text-sm font-medium text-text-muted dark:text-gray-300 hover:text-primary transition-colors"
+	navLinkBase  = "text-sm transition-colors hover:text-primary"
+	navLink      = navLinkBase + " font-medium text-text-muted dark:text-gray-300"
+	navLinkActive = navLinkBase + " font-bold text-text-main dark:text-white"
 	navSocialBtn = "flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all duration-300"
 
 	// Footer shared classes
 	footerSocialIcon = "text-text-muted dark:text-gray-400 hover:text-primary transition-colors"
 )
 
-templ Base(title string, headContent templ.Component, extraBodyAttrs templ.Attributes) {
+func getNavLinkClass(item string, activeNav string) string {
+	if item == activeNav {
+		return navLinkActive
+	}
+	return navLink
+}
+
+templ Base(title string, headContent templ.Component, extraBodyAttrs templ.Attributes, activeNav string) {
 	<!DOCTYPE html>
 	<html class="light" lang="en">
 		<head>
@@ -24,7 +33,8 @@ templ Base(title string, headContent templ.Component, extraBodyAttrs templ.Attri
 			<!-- Material Symbols -->
 			<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 			<!-- Tailwind Config -->
-			<script src="/assets/scripts/miseriae-config.js"></script>
+			<script src="/assets/scripts/tailwind-config.js"></script>
+			<script src="/assets/scripts/theme-toggle.js" defer></script>
 			<link rel="stylesheet" href="/assets/styles/miseriae.css"/>
 			<!-- HTMX -->
 			<script src="https://unpkg.com/htmx.org@1.9.12"></script>
@@ -51,19 +61,27 @@ templ Base(title string, headContent templ.Component, extraBodyAttrs templ.Attri
 			<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
 				<nav class="sticky top-4 z-50 mx-auto w-full max-w-[960px] px-4">
 					<div class="relative z-10 flex items-center justify-between rounded-full bg-white/80 dark:bg-[#2d1b24]/80 backdrop-blur-md px-6 py-3 shadow-[0_4px_20px_rgba(238,43,140,0.15)] border border-primary/10">
-						<div class="flex items-center gap-3">
+						<a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
 							<div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white">
 								<span class="material-symbols-outlined">auto_awesome</span>
 							</div>
 							<span class="text-lg font-bold tracking-tight text-text-main dark:text-white">Miseriae</span>
-						</div>
+						</a>
 						<div class="hidden md:flex items-center gap-8">
-							<a class="text-sm font-bold text-text-main dark:text-white hover:text-primary transition-colors" href="/">Home</a>
-							<a class={ navLink } href="/blog">Blog</a>
-							<a class={ navLink } href="/cosplays">Cosplays</a>
-							<a class={ navLink } href="/resume">Resume</a>
+							<a class={ getNavLinkClass("home", activeNav) } href="/">Home</a>
+							<a class={ getNavLinkClass("blog", activeNav) } href="/blog">Blog</a>
+							<a class={ getNavLinkClass("cosplays", activeNav) } href="/cosplays">Cosplays</a>
+							<a class={ getNavLinkClass("resume", activeNav) } href="/resume">Resume</a>
 						</div>
 						<div class="flex items-center gap-2">
+							<!-- Theme Slider -->
+							<button id="theme-toggle" class="relative group h-8 w-14 rounded-full bg-primary/10 dark:bg-zinc-800 border border-primary/10 transition-all duration-300 focus:outline-none" aria-label="Toggle Dark Mode">
+								<div class="absolute top-1 left-1 h-6 w-6 rounded-full bg-white dark:bg-primary text-primary dark:text-white shadow-sm transition-all duration-300 dark:translate-x-6 flex items-center justify-center">
+									<span class="material-symbols-outlined text-[16px] dark:hidden">light_mode</span>
+									<span class="material-symbols-outlined text-[16px] hidden dark:block">dark_mode</span>
+								</div>
+							</button>
+							<div class="w-px h-8 bg-primary/10 dark:bg-white/10 mx-1"></div>
 							<button class={ navSocialBtn }>
 								<span class="material-symbols-outlined text-[20px]">photo_camera</span>
 								<!-- Instagram -->
@@ -87,19 +105,19 @@ templ Base(title string, headContent templ.Component, extraBodyAttrs templ.Attri
 						class="hidden absolute top-full left-0 right-0 mt-2 mx-6 p-4 rounded-3xl bg-white/95 dark:bg-[#2d1b24]/95 backdrop-blur-xl shadow-[0_8px_30px_rgba(238,43,140,0.2)] border border-primary/10 flex flex-col gap-2 md:hidden z-0 transition-all duration-300 ease-in-out"
 						onclick="toggleMenu()"
 					>
-						<a class="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-bold text-text-main dark:text-white hover:bg-primary/5 hover:text-primary transition-all" href="/">
+						<a class={ "flex items-center gap-3 px-4 py-3 rounded-2xl text-base hover:bg-primary/5 hover:text-primary transition-all", templ.KV("font-bold text-text-main dark:text-white", activeNav == "home"), templ.KV("font-medium text-text-muted dark:text-gray-300", activeNav != "home") } href="/">
 							<span class="material-symbols-outlined text-primary">home</span>
 							Home
 						</a>
-						<a class="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-medium text-text-muted dark:text-gray-300 hover:bg-primary/5 hover:text-primary transition-all" href="/blog">
+						<a class={ "flex items-center gap-3 px-4 py-3 rounded-2xl text-base hover:bg-primary/5 hover:text-primary transition-all", templ.KV("font-bold text-text-main dark:text-white", activeNav == "blog"), templ.KV("font-medium text-text-muted dark:text-gray-300", activeNav != "blog") } href="/blog">
 							<span class="material-symbols-outlined text-primary">article</span>
 							Blog
 						</a>
-						<a class="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-medium text-text-muted dark:text-gray-300 hover:bg-primary/5 hover:text-primary transition-all" href="/cosplays">
+						<a class={ "flex items-center gap-3 px-4 py-3 rounded-2xl text-base hover:bg-primary/5 hover:text-primary transition-all", templ.KV("font-bold text-text-main dark:text-white", activeNav == "cosplays"), templ.KV("font-medium text-text-muted dark:text-gray-300", activeNav != "cosplays") } href="/cosplays">
 							<span class="material-symbols-outlined text-primary">styler</span>
 							Cosplays
 						</a>
-						<a class="flex items-center gap-3 px-4 py-3 rounded-2xl text-base font-medium text-text-muted dark:text-gray-300 hover:bg-primary/5 hover:text-primary transition-all" href="/resume">
+						<a class={ "flex items-center gap-3 px-4 py-3 rounded-2xl text-base hover:bg-primary/5 hover:text-primary transition-all", templ.KV("font-bold text-text-main dark:text-white", activeNav == "resume"), templ.KV("font-medium text-text-muted dark:text-gray-300", activeNav != "resume") } href="/resume">
 							<span class="material-symbols-outlined text-primary">face</span>
 							Resume
 						</a>

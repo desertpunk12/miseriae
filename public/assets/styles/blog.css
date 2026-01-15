@@ -1,0 +1,39 @@
+/* Blog-specific CSS styles */
+
+/* Custom scrollbar for bubblegum theme */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #fff5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #ff69b4;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #e05da5;
+}
+
+/* Blog grid layout with playful rotations */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* Playful rotation pattern for blog cards */
+.blog-grid > div:nth-child(5n+1) { transform: rotate(-2deg); margin-top: 0rem; }
+.blog-grid > div:nth-child(5n+2) { transform: rotate(2.5deg); margin-top: 2rem; }
+.blog-grid > div:nth-child(5n+3) { transform: rotate(1deg); margin-top: -1.5rem; }
+.blog-grid > div:nth-child(5n+4) { transform: rotate(-3deg); margin-top: 2.5rem; }
+.blog-grid > div:nth-child(5n+5) { transform: rotate(1.5deg); margin-top: -1rem; }
+
+/* Blog card hover effects */
+.blog-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.blog-card:hover {
+    transform: translateY(-12px) scale(1.03) rotate(0deg) !important;
+    z-index: 10;
+}

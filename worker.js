@@ -68,10 +68,105 @@ const ROUTES = {
     setup: (env) => {
       // Bind the KV namespace to global scope so Go can find it using js.Global().Get("KV")
       // 'KV_DEMO' must match the binding name in wrangler.toml
-      globalThis.KV = env.KV_DEMO;
+      // In wrangler.toml it is 'miseriaeentries'
+      if (env.miseriaeentries) {
+        globalThis.KV = env.miseriaeentries;
+      } else {
+        console.warn("KV binding 'miseriaeentries' not found");
+      }
     },
   },
+  "/admin/sync": {
+    func: "syncContent",
+    setup: (env) => {
+      if (env.miseriaeentries) {
+        globalThis.KV = env.miseriaeentries;
+      }
+    },
+    // handler override to pass env vars and secret check
+    customHandler: async (request, env) => {
+      const url = new URL(request.url);
+      const secret = url.searchParams.get("secret");
+      const expectedSecret = env.ADMIN_SECRET || "test"; // Fallback for dev
+
+      if (secret !== expectedSecret) {
+        return new Response("Unauthorized", { status: 401 });
+      }
+
+      if (typeof globalThis.syncContent !== "function") {
+        return new Response("WASM syncContent not initialized", { status: 500 });
+      }
+
+      try {
+        // Pass env vars: Folder ID, Drive Key, Photos Key
+        const folderId = env.DRIVE_FOLDER_ID || "";
+        const driveKey = env.GOOGLE_API_KEY || "";
+        let photosKey = env.GOOGLE_PHOTOS_API_KEY || "";
+
+        // OAUTH FLOW: If Refresh Token variables are present, try to get a fresh Access Token
+        if (env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET && env.GOOGLE_REFRESH_TOKEN) {
+          console.log("Attempting to refresh Google Photos Access Token...");
+          try {
+            const newAccessToken = await getAccessToken(
+              env.GOOGLE_CLIENT_ID,
+              env.GOOGLE_CLIENT_SECRET,
+              env.GOOGLE_REFRESH_TOKEN
+            );
+            if (newAccessToken) {
+              photosKey = newAccessToken;
+              console.log("Successfully refreshed Access Token.");
+            }
+          } catch (oauthErr) {
+            console.error("OAuth Refresh Error:", oauthErr);
+            return new Response("OAuth Refresh Failed: " + oauthErr.message, { status: 500 });
+          }
+        }
+
+        // Just in case params override (for testing)
+        if (url.searchParams.has("photos_key")) {
+          photosKey = url.searchParams.get("photos_key");
+        }
+
+        if (!folderId || !driveKey) {
+          return new Response("Missing Configuration (DRIVE_FOLDER_ID or GOOGLE_API_KEY)", { status: 500 });
+        }
+
+        const result = await globalThis.syncContent(folderId, driveKey, photosKey);
+        return new Response(result, { status: 200 });
+      } catch (e) {
+        return new Response("Sync Error: " + e.message, { status: 500 });
+      }
+    }
+  },
 };
+
+// Helper to swap Refresh Token for Access Token
+async function getAccessToken(clientId, clientSecret, refreshToken) {
+  const tokenEndpoint = "https://oauth2.googleapis.com/token";
+
+  // Construct form data
+  const params = new URLSearchParams();
+  params.append('client_id', clientId);
+  params.append('client_secret', clientSecret);
+  params.append('refresh_token', refreshToken);
+  params.append('grant_type', 'refresh_token');
+
+  const response = await fetch(tokenEndpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: params
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Token endpoint returned ${response.status}: ${errorText}`);
+  }
+
+  const data = await response.json();
+  return data.access_token;
+}
 
 export default {
   async fetch(request, env, ctx) {
@@ -168,6 +263,10 @@ export default {
         // Run any route-specific setup
         if (route.setup) {
           route.setup(env);
+        }
+
+        if (route.customHandler) {
+          return await route.customHandler(request, env);
         }
 
         const funcName = route.func;

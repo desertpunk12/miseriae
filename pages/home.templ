@@ -1,4 +1,4 @@
-package pages 
+package pages
 
 import "cloudflare-worker-boilerplate/components"
 
@@ -11,7 +11,6 @@ const (
 templ HomeHead() {
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="/assets/styles/home.css"/>
-	<script src="/assets/scripts/theme-toggle.js" defer></script>
 	<!-- HTMX -->
 	<script src="https://unpkg.com/htmx.org@2.0.0"></script>
 	<style>
@@ -27,10 +26,9 @@ templ HomeHead() {
 }
 
 templ Home() {
-	@Base("Cosplayer Home Page", HomeHead(), templ.Attributes{"hx-boost": "true", "hx-indicator": "#global-loader", "class": "page-root fade-in"}) {
+	@Base("Miseriae", HomeHead(), templ.Attributes{"hx-boost": "true", "hx-indicator": "#global-loader", "class": "page-root fade-in"}, "home") {
 		<!-- Optional Global Loader -->
 		<div id="global-loader" class="fixed top-0 left-0 w-full h-1 bg-primary z-[60] hidden htmx-request:block"></div>
-		
 		<!-- Hero Section -->
 		<section class="section-hero py-12">
 			<div class="@container">
@@ -66,14 +64,23 @@ templ Home() {
 						<!-- Decorative elements behind -->
 						<div class="absolute top-10 right-10 size-20 rounded-full bg-yellow-200 blur-2xl opacity-60 animate-pulse"></div>
 						<div class="absolute bottom-10 left-10 size-32 rounded-full bg-primary blur-3xl opacity-30"></div>
-						<div class="relative w-full max-w-[500px] aspect-[4/5] rounded-2xl md:rounded-[3rem] overflow-hidden shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 bg-center bg-cover" data-alt="Close up portrait of a girl in colorful magical girl cosplay costume with pink wig" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6ly0UYxFt_ndbRh28m9xieH7GspXv4mU9ZS9h_MMHrbJ8RxEfDIgG-HIAL-QQrC5r_q5XL6iYkvyEYq3ZG9XFzQkK7J1iUc9lcUrKC3ADmnTOqpCjkaCLIbN4oNjMuh1eVjCBxZwSiP8uQQflNCra6KnDb1rKPBY68qflMAYUopNvUVdO12uawG4F7taP8jDG_erO117VSgX9LsPc4yRBXqJBIzXqjGnHVZn9zMAE_AK52myjo7dq9MRtfnryNjPCCK2oIaL3irii');">
-							<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-							<div class="absolute bottom-6 left-6 right-6">
-								<div class="flex items-center gap-2 rounded-full bg-white/90 p-2 backdrop-blur-sm w-fit shadow-sm">
-									<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
-										<span class="material-symbols-outlined text-sm">favorite</span>
+						
+						<!-- Outer Wrapper: Matte & Rotation -->
+						<!-- This acts as the solid background that absorbs the border's anti-aliasing -->
+						<div class="relative w-full max-w-[500px] aspect-[4/5] rounded-2xl md:rounded-[3rem] shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 dark:bg-[#221019]" style="backface-visibility: hidden;">
+							
+							<!-- Inner Container: Border & Content -->
+							<!-- Sits on top of the matte, clipping the image -->
+							<div class="absolute inset-0 rounded-2xl md:rounded-[3rem] overflow-hidden border-2 border-solid border-[#f8f6f7] dark:border-[#221019] dark:bg-[#221019]">
+								<div class="w-full h-full bg-center bg-cover" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6ly0UYxFt_ndbRh28m9xieH7GspXv4mU9ZS9h_MMHrbJ8RxEfDIgG-HIAL-QQrC5r_q5XL6iYkvyEYq3ZG9XFzQkK7J1iUc9lcUrKC3ADmnTOqpCjkaCLIbN4oNjMuh1eVjCBxZwSiP8uQQflNCra6KnDb1rKPBY68qflMAYUopNvUVdO12uawG4F7taP8jDG_erO117VSgX9LsPc4yRBXqJBIzXqjGnHVZn9zMAE_AK52myjo7dq9MRtfnryNjPCCK2oIaL3irii'); transform: scale(1.02);"></div>
+								<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+								<div class="absolute bottom-6 left-6 right-6">
+									<div class="flex items-center gap-2 rounded-full bg-white/90 p-2 backdrop-blur-sm w-fit shadow-sm">
+										<div class="size-8 rounded-full bg-primary flex items-center justify-center text-white">
+											<span class="material-symbols-outlined text-sm">favorite</span>
+										</div>
+										<span class="pr-3 text-xs font-bold text-text-main">New Costume!</span>
 									</div>
-									<span class="pr-3 text-xs font-bold text-text-main">New Costume!</span>
 								</div>
 							</div>
 						</div>
@@ -81,7 +88,6 @@ templ Home() {
 				</div>
 			</div>
 		</section>
-
 		<!-- Latest Blogs Section -->
 		<section class="w-full max-w-6xl px-4 py-12 md:px-6">
 			<div class="mb-8 flex items-end justify-between px-2">
@@ -120,7 +126,6 @@ templ Home() {
 				})
 			</div>
 		</section>
-
 		<!-- Featured Cosplays Section -->
 		<section class="w-full max-w-6xl px-4 py-12 md:px-6 mb-12">
 			<div class="mb-8 flex flex-col items-center justify-center text-center">

@@ -1,13 +1,13 @@
 package components
 
 templ AlbumPopup() {
-	<div id="album-popup" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm" onclick="if(event.target === this) toggleAlbumPopup(false)">
-		<div class="relative w-full max-w-[1200px] max-h-[90vh] flex flex-col bg-white/70 backdrop-blur-md rounded-[3rem] border-2 border-white shadow-2xl animate-fade-in">
+	<div id="album-popup" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 dark:bg-black/80 backdrop-blur-sm" onclick="if(event.target === this) toggleAlbumPopup(false)">
+		<div class="relative w-full max-w-[1200px] max-h-[90vh] flex flex-col bg-white/70 dark:bg-zinc-900/95 backdrop-blur-md rounded-[3rem] border-2 border-white dark:border-zinc-700 shadow-2xl animate-fade-in">
 			<!-- Styles -->
 			<style type="text/tailwindcss">
 				@layer components {
 					.polaroid-card {
-						@apply bg-white p-4 pb-14 shadow-[0_10px_30px_-10px_rgba(255,51,161,0.2)] border border-pink-100 relative transition-transform duration-500 hover:scale-[1.02] hover:z-30;
+						@apply bg-white dark:bg-zinc-800 p-4 pb-14 shadow-[0_10px_30px_-10px_rgba(255,51,161,0.2)] dark:shadow-none border border-pink-100 dark:border-zinc-700 relative transition-transform duration-500 hover:scale-[1.02] hover:z-30;
 					}
 					.washi-tape-strip {
 						@apply absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-7 bg-pink-200/50 backdrop-blur-[2px] z-20 mix-blend-multiply pointer-events-none;
@@ -33,155 +33,66 @@ templ AlbumPopup() {
 					border-radius: 10px;
 					border: 2px solid #fff5f9;
 				}
+				:is(.dark ::-webkit-scrollbar-track) {
+					background: #221019;
+				}
+				:is(.dark ::-webkit-scrollbar-thumb) {
+					background: #db2777;
+					border-color: #221019;
+				}
 			</style>
 			<!-- Decorative blur circles -->
 			<div class="absolute -top-20 -right-20 w-64 h-64 bg-primary-light rounded-full blur-3xl opacity-30"></div>
 			<div class="absolute -bottom-20 -left-20 w-64 h-64 bg-accent-yellow rounded-full blur-3xl opacity-10"></div>
 			<!-- Close button -->
-			<button onclick="toggleAlbumPopup(false)" class="absolute top-6 right-6 z-[60] flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-md border border-primary-light text-primary hover:bg-soft-pink transition-all duration-300">
+			<button onclick="toggleAlbumPopup(false)" class="absolute top-6 right-6 z-[60] flex items-center justify-center w-10 h-10 bg-white dark:bg-zinc-800 rounded-full shadow-md border border-primary-light dark:border-zinc-600 text-primary dark:text-pink-400 hover:bg-soft-pink dark:hover:bg-zinc-700 transition-all duration-300">
 				<span class="material-symbols-outlined">close</span>
 			</button>
 			<!-- Header and Scrollable Content -->
 			<div class="overflow-y-auto flex-1 rounded-[3rem]">
 				<div class="px-10 pt-10 pb-0">
-					<div class="columns-1 md:columns-2 gap-12 space-y-12 mb-12">
-						<!-- Item 1 -->
-						<div class="masonry-item">
-							<div class="polaroid-card -rotate-1">
-								<div class="washi-tape-strip bg-pink-300/40 rotate-1"></div>
-								<span class="material-symbols-outlined deco-sticker -top-6 -right-4 text-4xl text-[#fff04d] rotate-12">stars</span>
-								<img
-									alt="Spirit Blossom Ahri 1"
-									onclick="openFullscreen(this.src)"
-									class="w-full h-auto object-cover cursor-zoom-in"
-									src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMF5gu1PSjWweqMzv07gBdOfiLC2k3xrn2T6RuAKg97exnZh-wEISYtHEsX2BUheyWkIcQPybDWGIqKEwxOygOvyckhUoFfFfiCMlaHIPsNnjLeLsaF2iUfhRxTs8-mvHrXZN9MpkegFNv0m-kKUmObZfz2JQ1oVffiD-ptBw8YnKxPQCE6gs-_xxW6-iaQjx1NFb-6vm7JP-fhk0c_oOHTvcCt0xDbTONG1LKlf0MDUYreVyLHMYWGxkBKLSaCZaxnoXRh0N5oGuD"
-								/>
-								<div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
-									<span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Evening Sakura Path</span>
-									<span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">01 / 06</span>
-								</div>
-							</div>
-						</div>
-						<!-- Item 2 -->
-						<div class="masonry-item">
-							<div class="polaroid-card rotate-2">
-								<div class="washi-tape-strip bg-blue-200/40 -rotate-2"></div>
-								<img
-									alt="Spirit Blossom Ahri 2"
-									onclick="openFullscreen(this.src)"
-									class="w-full h-auto object-cover cursor-zoom-in"
-									src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBkd_P0Y8FGrHdaPTUOPP6GIMU6sF6YMQpoNOaoY9t3ApM4SoNou0xEkFCQBlZvTa6pwA1wllUCuezZJFBzUAhljKXY4F8nBJ7sYpaGc7DG_nZRIGn2LcyXCcNSH6L6JWQqVqDbEy4Yc7GQe-996Smce2Hu2XrAAHpOk7izeqlQAmkdOohOj9u_mWn7Nu0C5lG1D6rjNubbRl8Fr0K2iF_08bcKD0HUPld6vRvP-yXa-lYE_nTo4pylNUT4vM6qWv2tirBe8GZc9oU"
-								/>
-								<span class="material-symbols-outlined deco-sticker bottom-12 -left-6 text-[#ff0080] text-4xl rotate-[-15deg]">favorite</span>
-								<div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
-									<span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Foxfire Whispers</span>
-									<span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">02 / 06</span>
-								</div>
-							</div>
-						</div>
-						<!-- Item 3 -->
-						<div class="masonry-item">
-							<div class="polaroid-card -rotate-2">
-								<div class="washi-tape-strip bg-yellow-100/60 rotate-3"></div>
-								<img
-									alt="Spirit Blossom Ahri 3"
-									onclick="openFullscreen(this.src)"
-									class="w-full h-auto object-cover cursor-zoom-in"
-									src="https://lh3.googleusercontent.com/aida-public/AB6AXuD37aC-oxbJemT1Z3wT1sAA0tsC2JpaRG6bBTcprLEIWxNEn4z9-56M--AZfAqKVWLytB6gyshvc_5BAhatEYUSmp9zAppp0jeaHSYye3_DKzmmhPU8Hz_RpguWYRCBNqpHFE6L5FKQserihZw9_eleP5adh1ArVOqbdCPQZfXgwvuupBj3KK9wVOW2MBxjYZXnxsGwhVMIiZPGKRU66uFy4l7WkJ9F-tu8R_sFruuv7lMf7kLDyWwbfn-WssStm8_3oDE-0sJwo2I8"
-								/>
-								<span class="material-symbols-outlined deco-sticker top-20 -right-4 text-3xl text-[#ff33a1]">colors</span>
-								<div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
-									<span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Gaze of the Spirit</span>
-									<span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">03 / 06</span>
-								</div>
-							</div>
-						</div>
-						<!-- Item 4 -->
-						<div class="masonry-item">
-							<div class="polaroid-card rotate-1">
-								<div class="washi-tape-strip bg-[#ffdcf0]/50 -rotate-1"></div>
-								<img
-									alt="Spirit Blossom Ahri 4"
-									onclick="openFullscreen(this.src)"
-									class="w-full h-auto object-cover cursor-zoom-in"
-									src="https://drive.google.com/uc?export=view&id=1BKydHO3th05JUUz5Kwaum2xkv5Zc37HZ"
-								/>
-								<span class="material-symbols-outlined deco-sticker -bottom-6 -right-2 text-4xl text-[#ff85c1]">colors_spark</span>
-								<div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
-									<span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Magic Manifest</span>
-									<span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">04 / 06</span>
-								</div>
-							</div>
-						</div>
-						<!-- Item 5 -->
-						<div class="masonry-item">
-							<div class="polaroid-card -rotate-1">
-								<div class="washi-tape-strip bg-purple-200/40 rotate-2"></div>
-								<img
-									alt="Spirit Blossom Ahri 5"
-									onclick="openFullscreen(this.src)"
-									class="w-full h-auto object-cover cursor-zoom-in"
-									src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzyMIh2JQJ-wjIKdB0GPxSQwUbWhHEcJK2y1iuwIij0acWRzFuNuD4ZJjOdGd0Znwtie1wx8cfSRu4kXPMmucdtmg1gvnDKnVJLkBVzroUTRk4i_So9z7sx6Ai378EEdTUhQ73ts-f7hg-JAi57Fg2k6yO43ZUhJ9PIdwPsNUg9WbOzjrHyCkDeRxdM6AidcFfTmqgLTE86le8LDxLXDlRr9Y5AnIPbJnEmN9LdeKBZNrRwmhvQIs7It_yOr-FktdknXbSQE8FjITg"
-								/>
-								<span class="material-symbols-outlined deco-sticker top-1/2 -left-8 text-3xl text-[#fff04d]">auto_awesome</span>
-								<div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
-									<span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Hidden Shrine</span>
-									<span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">05 / 06</span>
-								</div>
-							</div>
-						</div>
-						<!-- Item 6 -->
-						<div class="masonry-item">
-							<div class="polaroid-card rotate-1">
-								<div class="washi-tape-strip bg-[#fff04d]/30 -rotate-3"></div>
-								<img
-									alt="Spirit Blossom Ahri 6"
-									onclick="openFullscreen(this.src)"
-									class="w-full h-auto object-cover cursor-zoom-in"
-									src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpVXUyC3nXT3_sUDMalOuZxD0Qbs-Q5TQoqkrEr_8sNoFaGmwgLfnb_PfZZg9eo0a7gYsi1LBw_G4l7mFVjE2h64JttuU8CqQi8VmN_G775Cx689zI9THEb-c6OGg-8PhkgehmaA20LX97t94QDuihXsatRgw-6yUMhvzYdCCZC-jXt8NmAzW4-USZwkOpJO7X_ygHREQ58EUqqT87WESPjN6BFs5nZ9TTmeMsFh_sEN4St3iJxuwg700Hf4jJmBDokyv0AiSQWr5X"
-								/>
-								<div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
-									<span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Spiritual Farewell</span>
-									<span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">06 / 06</span>
-								</div>
-							</div>
-						</div>
+                    <!-- Dynamic Grid Container -->
+					<div id="popup-masonry-grid" class="columns-1 md:columns-2 gap-12 space-y-12 mb-12">
+						<!-- Content injected by JS -->
 					</div>
 				</div>
-				<!-- Header -->
-				<h3 class="font-display text-3xl text-primary-hot mb-10 mt-8 text-center flex items-center justify-center gap-3">
+                
+				<!-- Header (moved to bottom in original design or top?) The original had it below photos -->
+				<h3 id="popup-title" class="font-display text-3xl text-primary-hot dark:text-pink-400 mb-10 mt-8 text-center flex items-center justify-center gap-3">
 					<span class="material-symbols-outlined text-4xl">auto_stories</span>
 					Album Details
 				</h3>
 				<!-- Content grid -->
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10 mb-12 px-10">
-					<div class="flex items-center gap-5">
-						<div class="size-14 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm border border-primary-light">
-							<span class="material-symbols-outlined">photo_camera</span>
+				<div class="flex flex-col gap-10 relative z-10 mb-12 px-10">
+					<div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-24">
+						<div id="popup-photographer-box" class="flex items-center gap-5 justify-center">
+							<div class="size-14 rounded-2xl bg-white dark:bg-zinc-800 flex items-center justify-center text-primary dark:text-pink-400 shadow-sm border border-primary-light dark:border-zinc-700">
+								<span class="material-symbols-outlined">photo_camera</span>
+							</div>
+							<div>
+								<p class="text-[10px] uppercase font-bold text-bubblegum dark:text-pink-300 tracking-[0.2em]">
+									Captured By
+								</p>
+								<p id="popup-photographer" class="font-bold text-primary-hot dark:text-pink-200 text-xl">
+									-
+								</p>
+							</div>
 						</div>
-						<div>
-							<p class="text-[10px] uppercase font-bold text-bubblegum tracking-[0.2em]">
-								Captured By
-							</p>
-							<p class="font-bold text-primary-hot text-xl">
-								Studio Lumina
-							</p>
+						<div id="popup-assistant-box" class="flex items-center gap-5 justify-center">
+							<div class="size-14 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm border border-primary-light">
+								<span class="material-symbols-outlined">person_pin</span>
+							</div>
+							<div>
+								<p class="text-[10px] uppercase font-bold text-bubblegum tracking-[0.2em]">
+									Assistant
+								</p>
+								<p id="popup-assistant" class="font-bold text-primary-hot text-xl">
+									-
+								</p>
+							</div>
 						</div>
 					</div>
-					<div class="flex items-center gap-5">
-						<div class="size-14 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm border border-primary-light">
-							<span class="material-symbols-outlined">person_pin</span>
-						</div>
-						<div>
-							<p class="text-[10px] uppercase font-bold text-bubblegum tracking-[0.2em]">
-								Assistant
-							</p>
-							<p class="font-bold text-primary-hot text-xl">
-								Kyoko-chan
-							</p>
-						</div>
-					</div>
-					<div class="flex items-center gap-5 md:col-span-2 justify-center pt-8 border-t border-primary-light/30">
+					<div id="popup-location-box" class="flex items-center gap-5 justify-center pt-8 border-t border-primary-light/30 max-w-2xl mx-auto w-full">
 						<div class="size-14 rounded-2xl bg-white flex items-center justify-center text-primary shadow-sm border border-primary-light">
 							<span class="material-symbols-outlined">festival</span>
 						</div>
@@ -189,31 +100,28 @@ templ AlbumPopup() {
 							<p class="text-[10px] uppercase font-bold text-bubblegum tracking-[0.2em]">
 								Location
 							</p>
-							<p class="font-bold text-primary-hot text-xl">
-								Sakura Matsuri 2024
+							<p id="popup-location" class="font-bold text-primary-hot text-xl">
+								-
 							</p>
 						</div>
 					</div>
 				</div>
-				<!-- Quote and actions -->
+				<!-- Quote -->
 				<div class="flex flex-col items-center gap-6 pb-12 px-10">
-					<p class="font-display text-bubblegum text-xl italic text-center">
-						"Hope you enjoyed this journey into the spirit realm! ✨"
+					<p id="popup-description" class="font-display text-bubblegum dark:text-pink-300 text-xl italic text-center">
+						<!-- Desc -->
 					</p>
 					<div class="flex flex-wrap justify-center gap-4">
+                        <!-- Actions -->
 						<button class="rounded-full px-5 py-2 font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md flex items-center gap-2 bg-gradient-pop text-white hover:shadow-primary/40">
 							<span class="material-symbols-outlined">favorite</span>
 							Support this set
-						</button>
-						<button class="rounded-full px-5 py-2 font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md flex items-center gap-2 bg-white border-2 border-primary-light text-primary hover:bg-soft-pink">
-							<span class="material-symbols-outlined">download</span>
-							Download HD
 						</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- Fullscreen Overlay -->
+		<!-- Fullscreen logic reused -->
 		<div id="fullscreen-view" class="hidden fixed inset-0 z-[200] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in" onclick="closeFullscreen()">
 			<button class="absolute top-6 right-6 text-white/80 hover:text-white transition-colors" onclick="closeFullscreen()">
 				<span class="material-symbols-outlined text-4xl">close</span>
@@ -221,6 +129,75 @@ templ AlbumPopup() {
 			<img id="fullscreen-img" src="" alt="Fullscreen view" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-scale-up select-none" onclick="event.stopPropagation()"/>
 		</div>
 		<script>
+            // Logic to populate the popup
+            window.populateAlbumPopup = function(album) {
+                // 1. Clear Grid
+                const grid = document.getElementById('popup-masonry-grid');
+                grid.innerHTML = '';
+
+                // 2. Add Images
+                if (album.images && album.images.length > 0) {
+                    album.images.forEach((imgUrl, index) => {
+                         const item = document.createElement('div');
+                         item.className = 'masonry-item';
+                         
+                         // Rotate logic similar to static template
+                         const rotate = (index % 2 === 0) ? '-rotate-1' : 'rotate-2';
+                         const washiRotate = (index % 2 === 0) ? 'rotate-1' : '-rotate-2';
+                         const sticker = (index === 1) ? '<span class="material-symbols-outlined deco-sticker -top-6 -right-4 text-4xl text-[#fff04d] rotate-12">stars</span>' : '';
+
+                         item.innerHTML = `
+                            <div class="polaroid-card ${rotate}">
+                                <div class="washi-tape-strip bg-pink-300/40 ${washiRotate}"></div>
+                                ${sticker}
+                                <img
+                                    alt="${album.title} ${index+1}"
+                                    onclick="openFullscreen(this.src)"
+                                    class="w-full h-auto object-cover cursor-zoom-in"
+                                    src="${imgUrl}"
+                                />
+                                <div class="absolute bottom-4 left-6 right-6 flex justify-between items-baseline">
+                                    <span class="text-xs font-['DynaPuff'] text-[#ff85c1] italic">Photo ${index + 1}</span>
+                                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">${String(index+1).padStart(2, '0')} / ${String(album.images.length).padStart(2, '0')}</span>
+                                </div>
+                            </div>
+                         `;
+                         grid.appendChild(item);
+                    });
+                }
+
+                // 3. Metadata
+                document.getElementById('popup-title').innerHTML = `<span class="material-symbols-outlined text-4xl">auto_stories</span> ${album.title} Details`;
+                
+                setTextOrHide('popup-photographer', 'popup-photographer-box', album.photographer);
+                setTextOrHide('popup-assistant', 'popup-assistant-box', album.assistant);
+                setTextOrHide('popup-location', 'popup-location-box', album.location);
+                
+                const descEl = document.getElementById('popup-description');
+                if (album.description) {
+                    descEl.innerText = `"${album.description}"`;
+                    descEl.classList.remove('hidden');
+                } else {
+                    descEl.innerText = '';
+                    descEl.classList.add('hidden');
+                }
+            };
+
+            function setTextOrHide(textId, boxId, value) {
+                const el = document.getElementById(textId);
+                const box = document.getElementById(boxId);
+                if (value) {
+                    el.innerText = value;
+                    box.classList.remove('hidden');
+                    // Ensure flex display (tailwindcss removes it if we use hidden?) 
+                    // No, hidden class overrides display: flex. Removing hidden brings back flex.
+                    box.style.display = 'flex'; 
+                } else {
+                    box.classList.add('hidden');
+                    box.style.display = 'none';
+                }
+            }
+
 			let closeTimeout;
 			function openFullscreen(src) {
 				clearTimeout(closeTimeout);

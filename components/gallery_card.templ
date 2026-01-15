@@ -11,9 +11,9 @@ type GalleryCardProps struct {
 
 // CSS Classes for gallery card
 const (
-	galleryCard         = "group relative aspect-[3/4] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl shadow-md"
+	galleryCard         = "group relative aspect-[3/4] cursor-pointer overflow-hidden rounded-2xl md:rounded-3xl shadow-md isolate transform-gpu dark:bg-[#221019] border-2 border-solid border-[#f8f6f7] dark:border-[#221019]"
 	galleryCardOffset   = "md:translate-y-8"
-	galleryCardImage    = "h-full w-full bg-center bg-cover transition-transform duration-700 group-hover:scale-110"
+	galleryCardImage    = "h-full w-full bg-center bg-cover transition-transform duration-700 will-change-transform group-hover:scale-110"
 	galleryCardOverlay  = "absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-80"
 	galleryCardContent  = "absolute bottom-0 left-0 p-4 translate-y-4 transition-transform duration-300 group-hover:translate-y-0"
 	galleryCardTitle    = "text-lg font-bold text-white"
@@ -21,8 +21,12 @@ const (
 )
 
 templ GalleryCard(props GalleryCardProps) {
-	<div class={ galleryCard, templ.KV("md:translate-y-8", props.Offset) }>
-		<div class={ galleryCardImage } data-alt={ props.ImageAlt } style={ templ.SafeCSS("background-image: url(" + props.ImageURL + ");") }></div>
+	<div class={ galleryCard, templ.KV("md:translate-y-8", props.Offset) } data-item-id={ props.Title }>
+		<div
+			class={ galleryCardImage }
+			data-alt={ props.ImageAlt }
+			style={ "background-image: url('" + props.ImageURL + "');" }
+		></div>
 		<div class={ galleryCardOverlay }></div>
 		<div class={ galleryCardContent }>
 			<h3 class={ galleryCardTitle }>{ props.Title }</h3>
